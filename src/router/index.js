@@ -20,7 +20,7 @@ const routes = [
     {
         path: '/contact',
         name: 'contactenos',
-        component: () => import('../views/Contact.vue'),
+        component: () => import('../views/contact.vue'),
     },
     {
         path: '/artists',
