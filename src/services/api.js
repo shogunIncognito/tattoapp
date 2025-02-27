@@ -18,7 +18,6 @@ export async function validateEmail(token) {
     return await API.get(`/auth/validate-email/${token}`);
 }
 
-
 // artists
 
 export async function getArtists() {
