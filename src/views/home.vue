@@ -11,19 +11,19 @@ const indiceActual = ref(0);
 let intervalId = null;
 
 const menuItems = [
-  { name: 'TATUADORES', route: 'RepositorioTatu' },
+  { name: 'TATUADORES', route: 'artists' },
   { name: 'TATUAJES', route: 'tatuajes' },
   { name: '¿TATÚAS?', route: 'tatuas' },
-  { name: 'CONTÁCTENOS', route: 'contactenos' },
-  { name: 'REGISTRARSE', route: 'registro' }
+  { name: 'CONTÁCTENOS', route: 'contact' },
+  { name: 'REGISTRARSE', route: 'userRegister' }
 ];
 
 const handleNavigation = (item) => {
   seleccion.value = item.route;
-  if (item.route === 'tatuas') router.push('/registro');
-  else if (item.route === 'registro') router.push('/registro-usuario');
-  else if (item.route === 'contactenos') router.push('/Contactenos');
-  else if (item.route === 'RepositorioTatu') router.push('/RepositorioTatu');
+  if (item.route === 'tatuas') router.push('/register-tatto');
+  else if (item.route === 'userRegister') router.push('/register-user');
+  else if (item.route === 'contact') router.push('/contact');
+  else if (item.route === 'artists') router.push('/artists');
   else console.log(`Navegando a: ${item.route}`);
 };
 
@@ -84,9 +84,9 @@ onBeforeUnmount(() => {
       <div class="content-wrapper">
         <h1 class="animate-title">¿Quieres un tatuaje?</h1>
         <p class="animate-text">TE FACILITAMOS ENCONTRANDOLO, CON QUIÉN Y DONDE</p>
-        <button @click="comenzarBusqueda" class="main-button">
+        <RouterLink to="/artists" class="main-button">
           EMPEZAR
-        </button>
+        </RouterLink>
 
       </div>
 

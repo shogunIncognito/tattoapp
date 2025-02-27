@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* custom colors with tailwind classes */
+
+@layer components {
+    .text-neon {
+        color: #00e676;
+    }
+
+    .bg-dark {
+        background-color: #1a1a1a;
+    }
+}
+
+
 * {
     margin: 0;
     padding: 0;

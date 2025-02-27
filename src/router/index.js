@@ -1,38 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import tattoRegister from '@/views/tattoRegister.vue';
-import tattomapHome from '@/views/tattomapHome.vue';
-import RegistroUsuario from '../views/RegistroUsuario.vue';
-import contactenos from '@/views/PaginaContactenos.vue';
-import RepositorioTatu from '@/views/RepositorioTatu.vue';
 
 const routes = [
     {
         path: '/',
         name: 'Home',
-        component: tattomapHome,
+        component: () => import('../views/home.vue'),
         meta: { hideSidebar: true }
-
     },
     {
-        path: '/registro',
+        path: '/register-tatto',
         name: 'Registro',
-        component: tattoRegister,
+        component: () => import('../views/auth/tattoRegister.vue'),
     },
     {
-        path: '/registro-usuario',
+        path: '/register-user',
         name: 'RegistroUsuario',
-        component: RegistroUsuario
+        component: () => import('../views/auth/userRegister.vue'),
     },
     {
-        path: '/Contactenos',
+        path: '/contact',
         name: 'contactenos',
-        component: contactenos
+        component: () => import('../views/Contact.vue'),
     },
-
     {
-        path: '/RepositorioTatu',
-        name: 'repositorioTatu',
-        component: RepositorioTatu
+        path: '/artists',
+        name: 'artists',
+        component: () => import('../views/artists.vue'),
+    },
+    {
+        path: '/artists/profile/:id',
+        name: 'tattoArtistProfile',
+        component: () => import('../views/tattoArtistProfile.vue'),
+    },
+    {
+        path: '/validate-email/:verificationUrl/:email',
+        name: 'validateEmail',
+        component: () => import('../views/auth/validateEmail.vue'),
     }
 ];
 
