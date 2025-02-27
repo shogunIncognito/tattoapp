@@ -33,7 +33,7 @@ const routes = [
         component: () => import('../views/tattoArtistProfile.vue'),
     },
     {
-        path: '/validate-email/:verificationUrl/:email',
+        path: '/validate-email/:token/',
         name: 'validateEmail',
         component: () => import('../views/auth/validateEmail.vue'),
     }

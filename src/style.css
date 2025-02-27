@@ -9,8 +9,12 @@
         color: #00e676;
     }
 
-    .bg-dark {
+    .bg-darker {
         background-color: #1a1a1a;
+    }
+
+    .bg-dark {
+        background-color: #333333;
     }
 }
 
