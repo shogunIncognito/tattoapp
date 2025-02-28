@@ -18,6 +18,11 @@ const routes = [
         component: () => import('../views/auth/userRegister.vue'),
     },
     {
+        path: '/validate-email/:token/',
+        name: 'validateEmail',
+        component: () => import('../views/auth/validateEmail.vue'),
+    },
+    {
         path: '/contact',
         name: 'contactenos',
         component: () => import('../views/contact.vue'),
@@ -33,9 +38,9 @@ const routes = [
         component: () => import('../views/tattoArtistProfile.vue'),
     },
     {
-        path: '/validate-email/:token/',
-        name: 'validateEmail',
-        component: () => import('../views/auth/validateEmail.vue'),
+        path: '/tattoos',
+        name: 'tattoos',
+        component: () => import('../views/tattoos.vue'),
     }
 ];
 

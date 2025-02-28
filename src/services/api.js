@@ -23,3 +23,7 @@ export async function validateEmail(token) {
 export async function getArtists() {
     return await API.get("/artists");
 }
+
+export async function getArtistById(id) {
+    return await API.get(`/artists/${id}`);
+}

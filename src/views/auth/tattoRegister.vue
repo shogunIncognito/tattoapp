@@ -43,7 +43,7 @@ const volver = () => {
               +57
             </label>
             <input type="tel" v-model="tatuador.telefono" placeholder="Número de teléfono (opcional)"
-              class="rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none" />
+              class="rounded bg-[#333] flex-1 p-2 text-white focus:border-[#00e676] focus:outline-none" />
           </div>
         </div>
 
@@ -70,7 +70,7 @@ const volver = () => {
           <select v-model="tatuador.ciudad" required
             class="w-full rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none">
             <option value="" disabled selected>Selecciona tu ciudad</option>
-            <option v-for="ciudad in ciudades" :key="ciudad" :value="ciudad">{{ ciudad }}</option>
+            <option class="bg-dark" v-for="ciudad in ciudades" :key="ciudad" :value="ciudad">{{ ciudad }}</option>
           </select>
         </div>
 

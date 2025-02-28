@@ -12,10 +12,10 @@ let intervalId = null;
 
 const menuItems = [
   { name: 'TATUADORES', route: 'artists' },
-  { name: 'TATUAJES', route: 'tatuajes' },
+  { name: 'TATUAJES', route: 'tattoos' },
   { name: '¿TATÚAS?', route: 'tatuas' },
   { name: 'CONTÁCTENOS', route: 'contact' },
-  { name: 'REGISTRARSE', route: 'userRegister' }
+  { name: 'REGISTRARSE', route: 'userRegister' },
 ];
 
 const handleNavigation = (item) => {
@@ -24,6 +24,7 @@ const handleNavigation = (item) => {
   else if (item.route === 'userRegister') router.push('/register-user');
   else if (item.route === 'contact') router.push('/contact');
   else if (item.route === 'artists') router.push('/artists');
+  else if (item.route === 'tattoos') router.push('/tattoos');
   else console.log(`Navegando a: ${item.route}`);
 };
 
