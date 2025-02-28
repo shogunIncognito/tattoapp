@@ -32,7 +32,6 @@ export const profileSettingFields = {
         instagram: "Instagram",
         twitter: "Twitter",
         tiktok: "TikTok",
-        youtube: "YouTube",
     },
 }
 

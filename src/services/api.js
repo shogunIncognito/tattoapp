@@ -30,6 +30,16 @@ export async function fetchUser(token) {
     });
 }
 
+// profile
+
+export async function updateProfileSocial(token, data) {
+    return await API.patch("/settings-users/add-social-network", data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
 // artists
 
 export async function getArtists() {
