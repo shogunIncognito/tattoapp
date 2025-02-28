@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "http://localhost:3001",
+    baseURL: "https://tattoo-inc-62j4s.ondigitalocean.app/api",
 })
 
 // auth
@@ -11,11 +11,23 @@ export async function registerUser(data) {
 }
 
 export async function registerTatto(data) {
-    return await API.post("/auth/register-tatto", data);
+    return await API.post("/auth/register-tattoo-artist", data);
 }
 
-export async function validateEmail(token) {
-    return await API.get(`/auth/validate-email/${token}`);
+export async function verifyEmail(emailToken) {
+    return await API.post(`/auth/verify-email`, { token: emailToken });
+}
+
+export async function login(data) {
+    return await API.post("/auth/login", data);
+}
+
+export async function fetchUser(token) {
+    return await API.get("/auth/get-user", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 }
 
 // artists

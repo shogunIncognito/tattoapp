@@ -20,7 +20,7 @@ const tattoos = ref([
         },
         nombre: "Flor Mano",
         descripcion: "Tatuaje de una flor en la mano",
-        foto: "https://feelfarbig.com/wp-content/uploads/2022/09/backout_tattoo-09.jpg",
+        foto: ["https://feelfarbig.com/wp-content/uploads/2022/09/backout_tattoo-09.jpg"],
     },
     {
         id: 1,
@@ -37,7 +37,7 @@ const tattoos = ref([
         },
         nombre: "Flor Mano",
         descripcion: "Tatuaje de una flor en la mano",
-        foto: "https://th.bing.com/th/id/OIP.k0-gK6Z3PonaXJvKLoxqjgHaF-?rs=1&pid=ImgDetMain",
+        foto: ["https://th.bing.com/th/id/OIP.k0-gK6Z3PonaXJvKLoxqjgHaF-?rs=1&pid=ImgDetMain"],
     },
     {
         id: 1,
@@ -54,7 +54,7 @@ const tattoos = ref([
         },
         nombre: "Flor Mano",
         descripcion: "Tatuaje de una flor en la mano",
-        foto: "https://th.bing.com/th/id/OIP.k0-gK6Z3PonaXJvKLoxqjgHaF-?rs=1&pid=ImgDetMain",
+        foto: ["https://th.bing.com/th/id/OIP.k0-gK6Z3PonaXJvKLoxqjgHaF-?rs=1&pid=ImgDetMain"],
     },
     {
         id: 1,
@@ -71,7 +71,7 @@ const tattoos = ref([
         },
         nombre: "Flor Mano",
         descripcion: "Tatuaje de una flor en la mano",
-        foto: "https://th.bing.com/th/id/OIP.k0-gK6Z3PonaXJvKLoxqjgHaF-?rs=1&pid=ImgDetMain",
+        foto: ["https://th.bing.com/th/id/OIP.k0-gK6Z3PonaXJvKLoxqjgHaF-?rs=1&pid=ImgDetMain"],
     },
 ]);
 </script>
@@ -87,7 +87,7 @@ const tattoos = ref([
             <div v-for="tattoo in tattoos" :key="tattoo.id"
                 class="relative cursor-pointer break-inside-avoid overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition group"
                 @click="router.push(`/artists/profile/${tattoo.id}`)">
-                <img :src="tattoo.foto" alt="Foto del tatuador"
+                <img :src="tattoo.foto[0]" alt="Foto del tatuador"
                     class="w-full h-full object-cover rounded-lg transition group-hover:brightness-75" />
 
                 <div class="absolute top-0 left-0 w-full transparent bg-dark p-4 opacity-80">

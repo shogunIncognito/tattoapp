@@ -1,9 +1,29 @@
 <script setup>
+import { useAuthStore } from './store/useAuthStore';
+import Spinner from './components/Spinner.vue'
+import { onMounted, ref } from 'vue';
+import NavBar from './components/NavBar.vue';
+
+const authStore = useAuthStore();
+const isReady = ref(false);
+
+onMounted(async () => {
+  const token = localStorage.getItem('token');
+  await authStore.setSession(token)
+  isReady.value = true;
+});
+
 </script>
 
 <template>
   <div id="app">
-    <router-view></router-view>
+    <NavBar v-if="isReady" />
+    <div v-if="!isReady"
+      class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
+      <Spinner />
+    </div>
+    <router-view class="pt-20" v-else>
+    </router-view>
   </div>
 </template>
 

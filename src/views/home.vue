@@ -1,36 +1,14 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
 import carrusel1 from '@/assets/carrusel1.jpg';
 import carrusel2 from '@/assets/carrusel2.jpg';
+import NavBar from '../components/NavBar.vue';
 
-const router = useRouter();
-const seleccion = ref('');
 const imagenes = ref([carrusel1, carrusel2]);
 const indiceActual = ref(0);
 let intervalId = null;
 
-const menuItems = [
-  { name: 'TATUADORES', route: 'artists' },
-  { name: 'TATUAJES', route: 'tattoos' },
-  { name: '¿TATÚAS?', route: 'tatuas' },
-  { name: 'CONTÁCTENOS', route: 'contact' },
-  { name: 'REGISTRARSE', route: 'userRegister' },
-];
 
-const handleNavigation = (item) => {
-  seleccion.value = item.route;
-  if (item.route === 'tatuas') router.push('/register-tatto');
-  else if (item.route === 'userRegister') router.push('/register-user');
-  else if (item.route === 'contact') router.push('/contact');
-  else if (item.route === 'artists') router.push('/artists');
-  else if (item.route === 'tattoos') router.push('/tattoos');
-  else console.log(`Navegando a: ${item.route}`);
-};
-
-const comenzarBusqueda = () => {
-  console.log('Iniciando la búsqueda de tatuajes desde la página de inicio');
-};
 
 const iniciarCarrusel = () => {
   intervalId = setInterval(() => {
@@ -55,21 +33,6 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="tattoo-map-home">
-    <!-- Navegación -->
-
-
-    <nav class="nav-container">
-
-      <div class="nav-content">
-        <ul>
-          <li v-for="item in menuItems" :key="item.name" :class="{ active: seleccion === item.route }"
-            @click="handleNavigation(item)" class="nav-item">
-            {{ item.name }}
-          </li>
-        </ul>
-      </div>
-    </nav>
-
     <!-- Carrusel con transiciones -->
     <div class="carrusel">
       <transition-group name="fade">
@@ -119,60 +82,6 @@ onBeforeUnmount(() => {
 .tattoo-map-home::-webkit-scrollbar {
   display: none;
 }
-
-
-/* Navegación moderna y translúcida */
-.nav-container {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
-  width: auto;
-}
-
-.nav-content {
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
-  border-radius: 30px;
-  padding: 8px 15px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-nav ul {
-  list-style-type: none;
-  display: flex;
-  gap: 15px;
-  padding: 0;
-  margin: 0;
-  justify-content: center;
-}
-
-.nav-item {
-  cursor: pointer;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  color: rgba(255, 255, 255, 0.8);
-  background: transparent;
-  position: relative;
-  white-space: nowrap;
-  border: 1px solid transparent;
-}
-
-.nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.nav-item.active {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
 
 /* Carrusel */
 .carrusel {

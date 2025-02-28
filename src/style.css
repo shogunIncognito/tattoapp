@@ -21,6 +21,10 @@
         font-family: "Pirata One", serif;
         font-size: 38px;
     }
+
+    .ring-neon {
+        @apply ring-2 ring-green-500/35;
+    }
 }
 
 

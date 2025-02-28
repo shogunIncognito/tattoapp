@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const tatuador = ref({
     id: 1,
@@ -24,7 +27,7 @@ const tatuador = ref({
 <template>
     <div class="min-h-screen bg-black p-5 text-white">
         <div class="flex items-center gap-10">
-            <RouterLink to="/artists" class="text-[#00c853] hover:text-[#00e676]">← Volver</RouterLink>
+            <button @click="router.back()" class="text-[#00c853] hover:text-[#00e676]">← Volver</button>
             <h1 class="text-3xl font-bold">Perfil del Tatuador</h1>
         </div>
         <div class="max-w-4xl mx-auto bg-[#1a1a1a] p-6 rounded-lg shadow-lg">

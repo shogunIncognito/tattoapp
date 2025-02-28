@@ -8,6 +8,11 @@ const routes = [
         meta: { hideSidebar: true }
     },
     {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/auth/login.vue'),
+    },
+    {
         path: '/register-tatto',
         name: 'Registro',
         component: () => import('../views/auth/tattoRegister.vue'),
@@ -36,6 +41,18 @@ const routes = [
         path: '/artists/profile/:id',
         name: 'tattoArtistProfile',
         component: () => import('../views/tattoArtistProfile.vue'),
+    },
+    {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('../views/profile.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/profile/settings',
+        name: 'settings',
+        component: () => import('../views/profileSettings.vue'),
+        meta: { requiresAuth: true }
     },
     {
         path: '/tattoos',
