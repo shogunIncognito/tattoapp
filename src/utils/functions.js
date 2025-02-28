@@ -30,3 +30,19 @@ export function deleteEmptyValues(obj) {
         })
     );
 }
+
+export function checkIfValidsSocialsURL(url) {
+    const socials = ["facebook", "instagram", "twitter", "tiktok"];
+
+    const invalidSocials = socials.filter((social) => {
+        // si esta vacia la url, quiere decir que no va a agregar la red social
+        if (url[social] === "") {
+            return false;
+        }
+
+        const socialSplit = url[social].split(".")[1];
+        return !url[socialSplit]
+    });
+
+    return invalidSocials.length === 0 ? { message: '', valid: true } : { valid: false, message: `La url de ${invalidSocials.join(", ")} no es válida` };
+}

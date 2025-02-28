@@ -1,28 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { profileSettingFields, tattoosSpecialities } from '../utils/consts'
 import { IoRemoveCircleOutline } from 'vue-icons-plus/io';
 import { CgAdd } from 'vue-icons-plus/cg';
 import { useRouter } from 'vue-router';
-import { deleteEmptyValues } from '../utils/functions';
-import { updateProfileSocial } from '../services/api';
+import { checkIfValidsSocialsURL, getApiErrorMessage } from '../utils/functions';
+import { fetchUser, updateProfileSocial } from '../services/api';
+import Spinner from '../components/Spinner.vue';
+import { toast } from 'vue3-toastify';
 
 const router = useRouter();
 
-const form = ref({
-    name: 'Juan Pérez',
-    specialty: 'Gotico',
-    experience: '5 años',
-    email: 'juanperez@example.com',
-    socialNetworks: {
-        instagram: 'https://www.instagram.com/jhon_doe',
-        facebook: 'https://www.facebook.com/jhon_doe',
-        twitter: 'https://www.twitter.com/jhon_doe',
-        tiktok: ''
-    },
-    address: 'Ciudad de México',
-    description: 'Apasionado por la tecnología y el desarrollo web.'
-});
+const form = ref(null);
+const loading = ref(true);
 
 const toggleField = (key) => {
     // con un espacio en blanco se muestra el campo
@@ -33,7 +23,7 @@ const hideField = (key) => {
     showFields.value[key] = "";
 };
 
-const showFields = ref(form.value.socialNetworks || {
+const showFields = ref({
     instagram: "",
     facebook: "",
     twitter: "",
@@ -45,23 +35,49 @@ const submitForm = () => {
 };
 
 const handleSocials = () => {
-    const socials = deleteEmptyValues(form.value.socialNetworks);
+    const socials = showFields.value;
     const token = localStorage.getItem('token');
+
+    const isValidSocials = checkIfValidsSocialsURL(socials)
+
+    if (!isValidSocials.valid) return toast.error(isValidSocials.message)
 
     updateProfileSocial(token, socials)
         .then((res) => {
             console.log('Redes sociales actualizadas:', res.data);
+            toast.success('Redes sociales actualizadas');
         })
         .catch((error) => {
             console.error('Error al actualizar redes sociales:', error);
+            toast.error(getApiErrorMessage(error.response.data.message) || 'Error al actualizar redes sociales');
         });
 };
+
+onMounted(() => {
+    const token = localStorage.getItem('token');
+    fetchUser(token)
+        .then((res) => {
+            console.log('Usuario:', res.data);
+            form.value = res.data.tattooArtist;
+            showFields.value = res.data.tattooArtist.socialNetworks;
+        })
+        .catch((error) => {
+            console.error('Error al obtener el usuario:', error);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+})
 
 </script>
 
 <template>
     <div class="min-h-screen flex items-center justify-center bg-black text-white p-4">
-        <div class="w-full max-w-3xl bg-[#1a1a1a] p-6 rounded-lg shadow-lg">
+        <div v-if="loading"
+            class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
+            <Spinner />
+        </div>
+        <div v-else class="w-full max-w-3xl bg-[#1a1a1a] p-6 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold mb-6 text-center">Perfil</h2>
             <h3 class="text-xl font-semibold mb-4">Editar información</h3>
 
