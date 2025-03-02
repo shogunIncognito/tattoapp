@@ -43,7 +43,7 @@ const volver = () => {
 
 <template>
     <div class="bg-black min-h-screen flex justify-center items-center p-5">
-        <div class="bg-[#1a1a1a] p-10 rounded-lg w-full max-w-md">
+        <div class="bg-[#1a1a1a] p-10 rounded-lg w-full max-w-md ring-neon">
             <h2 class="text-white text-center mb-8 text-2xl">
                 Iniciar
                 <span class="text-neon">sesión</span>

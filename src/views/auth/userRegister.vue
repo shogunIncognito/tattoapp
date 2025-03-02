@@ -20,7 +20,9 @@ const verificationEmail = ref(false);
 const handleRegisterUser = () => {
   registerUser(user.value)
     .then(() => {
-      toast.success('Revisa tu correo para confirmar tu registro');
+      toast.success('Revisa tu correo para confirmar tu registro', {
+        autoClose: 5000,
+      });
       verificationEmail.value = true;
     })
     .catch((error) => {
@@ -36,7 +38,7 @@ const volver = () => {
 
 <template>
   <div class="bg-black min-h-screen flex justify-center items-center p-5">
-    <div v-if="!verificationEmail" class="bg-[#1a1a1a] p-10 rounded-lg w-full max-w-md">
+    <div v-if="!verificationEmail" class="bg-[#1a1a1a] ring-neon p-10 rounded-lg w-full max-w-md">
       <h2 class="text-white text-center mb-8 text-2xl">Registro de <span class="text-neon">Usuario</span></h2>
 
       <form @submit.prevent="handleRegisterUser">

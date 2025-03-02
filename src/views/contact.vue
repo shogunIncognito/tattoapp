@@ -1,6 +1,6 @@
 <template>
   <div class="contacto-container">
-    <div class="contacto-content">
+    <div class="contacto-content ring-neon">
       <!-- Sección de información de contacto -->
       <div class="info-contacto">
         <h2>Reportar un fallo</h2>
