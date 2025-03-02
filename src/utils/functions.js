@@ -15,6 +15,9 @@ export function getApiErrorMessage(errorMessages) {
 }
 
 export function deleteEmptyValues(obj) {
+    if (typeof obj !== "object") {
+        return obj;
+    }
     return Object.fromEntries(
         Object.entries(obj).filter(([_, value]) => {
             if (value === null || value === undefined || value === "") {
