@@ -8,7 +8,7 @@ import { checkIfValidsSocialsURL, getApiErrorMessage } from '../utils/functions'
 import { fetchUser, updateProfileInfo, updateProfileSocial } from '../services/api';
 import Spinner from '../components/Spinner.vue';
 import { toast } from 'vue3-toastify';
-import ProfilePhotoBanner from '../components/profile/profilePhotoBanner.vue';
+import ProfilePhotoBanner from '../components/profile/ProfilePhotoBanner.vue';
 
 const router = useRouter();
 
