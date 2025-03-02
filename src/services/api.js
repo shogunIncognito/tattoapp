@@ -4,6 +4,8 @@ const API = axios.create({
     baseURL: "https://tattoo-inc-62j4s.ondigitalocean.app/api",
 })
 
+const getToken = () => localStorage.getItem("token");
+
 // auth
 
 export async function registerUser(data) {
@@ -22,30 +24,101 @@ export async function login(data) {
     return await API.post("/auth/login", data);
 }
 
-export async function fetchUser(token) {
+export async function fetchUser() {
     return await API.get("/auth/get-user", {
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getToken()}`,
         },
     });
 }
 
 // profile
 
-export async function updateProfileSocial(token, data) {
-    return await API.patch("/settings-users/add-social-network", data, {
+export async function updateProfileInfo(data) {
+    return await API.patch("/settings-users/update-tattoo-artist", data, {
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getToken()}`,
         },
     });
 }
 
-// artists
-
-export async function getArtists() {
-    return await API.get("/artists");
+export async function updateProfileSocial(data) {
+    return await API.patch("/settings-users/add-social-network", data, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
 }
 
-export async function getArtistById(id) {
-    return await API.get(`/artists/${id}`);
+export async function updateProfilePhoto(data) {
+    return await API.post("/settings-users/update-photo-profile", data, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
+
+export async function updateProfileBanner(data) {
+    return await API.post("/settings-users/update-photo-background", data, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
+
+
+// artists
+
+export async function getTattooArtists() {
+    return await API.get("/auth/get-find-tattoo-artist");
+}
+
+export async function getTattooArtistById(id) {
+    return await API.get(`/auth/get-tattoo-artist/${id} `);
+}
+
+// tattoos posts
+
+export async function getTattooPosts() {
+    return await API.get("/posts-tattoo-artist/get-find-posts");
+}
+
+export async function getTattooPostById(id) {
+    return await API.get(`/posts-tattoo-artist/get-post/${id}`);
+}
+
+export async function createTattooPost(data) {
+    return await API.post("/posts-tattoo-artist/create-post", data, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
+
+export async function deleteTattooPost(id) {
+    return await API.delete(`/posts-tattoo-artist/delete-post/${id}`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
+
+export async function getTattooistPosts(id) {
+    return await API.get(`/posts-tattoo-artist/get-posts-tattoo-artist/${id}`);
+}
+
+export async function likeTattooPost(id) {
+    return await API.post(`/posts-tattoo-artist/like-post/${id}`, null, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
+
+export async function unlikeTattooPost(id) {
+    return await API.post(`/posts-tattoo-artist/unlike-post/${id}`, null, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
 }

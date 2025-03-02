@@ -1,8 +1,10 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { getTattooArtistById } from "../services/api";
 
 const router = useRouter();
+const { params } = useRoute();
 
 const tatuador = ref({
     id: 1,
@@ -22,6 +24,13 @@ const tatuador = ref({
     direccion: "Calle 123 #45-67, Villavicencio",
     horario: "Lunes - Viernes: 10 AM - 7 PM",
 });
+
+onMounted(() => {
+    getTattooArtistById(params.id).then((data) => {
+        console.log(data);
+        // tatuador.value = data;
+    });
+})
 </script>
 
 <template>

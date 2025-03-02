@@ -4,8 +4,9 @@ import { RouterLink, useRouter } from "vue-router";
 import { fetchUser } from "../services/api";
 import Spinner from "../components/Spinner.vue";
 import { BiSolidPencil } from "vue-icons-plus/bi";
-import { FaFacebook, FaInstagram, FaTiktok, FaTwitter } from "vue-icons-plus/fa";
+import { FaFacebook, FaInstagram, FaTiktok } from "vue-icons-plus/fa";
 import { Fa6XTwitter } from "vue-icons-plus/fa6";
+import { deleteEmptyValues } from "../utils/functions";
 
 const router = useRouter();
 
@@ -13,8 +14,7 @@ const tatooist = ref(null);
 const loading = ref(true);
 
 onMounted(() => {
-    const token = localStorage.getItem("token");
-    fetchUser(token)
+    fetchUser()
         .then((res) => {
             console.log("Usuario:", res.data);
             tatooist.value = res.data.tattooArtist;
@@ -26,6 +26,7 @@ onMounted(() => {
             loading.value = false;
         });
 })
+
 </script>
 
 <template>
@@ -40,9 +41,9 @@ onMounted(() => {
         </div>
         <div class="max-w-4xl mx-auto bg-[#1a1a1a] rounded-lg shadow-lg">
             <div class="relative h-[17rem]">
-                <img :src="tatooist.image || 'https://www.cristianroldan.art/wp-content/uploads/2020/10/escaparate-pintado-a-mano-estudio-de-tatuaje.jpg'"
+                <img :src="tatooist.photoBackground?.url || 'https://www.cristianroldan.art/wp-content/uploads/2020/10/escaparate-pintado-a-mano-estudio-de-tatuaje.jpg'"
                     alt="banner del tatuador" class="w-full h-52 object-cover rounded" />
-                <img :src="tatooist.image || 'https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain'"
+                <img :src="tatooist.photoPerfil?.url || 'https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain'"
                     alt="Foto del tatuador" class="w-40 bottom-1 left-4 absolute rounded-full h-40 object-cover" />
             </div>
             <div class="p-5">
@@ -54,15 +55,26 @@ onMounted(() => {
                         <BiSolidPencil class="text-[#00c853] text-4xl" />
                     </RouterLink>
                 </div>
-                <p class="text-gray-300 mb-2"><strong>Especialidad:</strong> {{ tatooist.specialty }}</p>
-                <p class="text-gray-300 mb-2"><strong>Años de experiencia:</strong> {{ tatooist.experience }}</p>
-                <p class="text-gray-300 mb-2"><strong>Dirección:</strong> {{ tatooist.direccion }}</p>
-                <p class="text-gray-300 mb-4"><strong>Horario:</strong> {{ tatooist.description }}</p>
-                <p class="text-gray-300 mb-4"><strong>Correo:</strong> {{ tatooist.email }}</p>
 
-                <div class="mb-4">
+                <p v-if="tatooist.specialty && tatooist.specialty !== ''" class="text-gray-300 mb-2">
+                    <strong>Especialidad:</strong> {{ tatooist.specialty }}
+                </p>
+                <p v-if="tatooist.experience && tatooist.experience !== ''" class="text-gray-300 mb-2">
+                    <strong>Años de experiencia:</strong> {{ tatooist.experience }}
+                </p>
+                <p v-if="tatooist.address && tatooist.address !== ''" class="text-gray-300 mb-2">
+                    <strong>Dirección:</strong> {{ tatooist.address }}
+                </p>
+                <p v-if="tatooist.description && tatooist.description !== ''" class="text-gray-300 mb-2">
+                    <strong>Horario:</strong> {{ tatooist.description }}
+                </p>
+                <p v-if="tatooist.email && tatooist.email !== ''" class="text-gray-300 mb-4">
+                    <strong>Correo:</strong> {{ tatooist.email }}
+                </p>
+
+                <div class="mb-4" v-if="Object.keys(deleteEmptyValues(tatooist.socialNetworks)).length > 0">
                     <h2 class="text-xl font-semibold mb-2 text-neon">Redes Sociales</h2>
-                    <div v-if="tatooist.socialNetworks" class="flex gap-4">
+                    <div class="flex gap-4">
                         <a v-if="tatooist.socialNetworks.facebook" :href="tatooist.socialNetworks.facebook"
                             target="_blank">
                             <FaFacebook class="hover:text-[#1877f2] text-2xl transition-colors" />

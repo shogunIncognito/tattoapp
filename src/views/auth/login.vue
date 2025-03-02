@@ -30,7 +30,9 @@ const handleLogin = () => {
         })
         .catch((error) => {
             console.error('Error al iniciar el usuario:', error);
-            toast.error(getApiErrorMessage(error.response.data.message) || 'Error al iniciar sesión');
+            toast.error(getApiErrorMessage(error.response.data.message) || 'Error al iniciar sesión', {
+                autoClose: 5000,
+            });
         });
 };
 

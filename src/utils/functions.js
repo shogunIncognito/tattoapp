@@ -32,7 +32,7 @@ export function deleteEmptyValues(obj) {
 }
 
 export function checkIfValidsSocialsURL(url) {
-    const socials = ["facebook", "instagram", "twitter", "tiktok"];
+    const socials = Object.keys(url) || [];
 
     const invalidSocials = socials.filter((social) => {
         // si esta vacia la url, quiere decir que no va a agregar la red social

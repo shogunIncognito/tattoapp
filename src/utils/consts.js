@@ -21,8 +21,7 @@ export const profileSettingFields = {
     userData: {
         name: "Nombre",
         specialty: "Especialidad",
-        email: "Correo Electrónico",
-        phone: "Teléfono",
+        numberPhone: "Teléfono",
         experience: "Experiencia",
         address: "Dirección",
         description: "Descripción",

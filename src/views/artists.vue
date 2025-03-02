@@ -1,99 +1,18 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { RouterLink, useRouter } from "vue-router";
+import { getTattooArtists } from "../services/api";
 
 const router = useRouter();
 
-const tatuadores = ref([
-  {
-    id: 1,
-    nombre: "Carlos Ink",
-    ciudad: "Villavicencio",
-    instagram: "@carlos_ink",
-    especialidad: "Realismo",
-    experiencia: 10,
-    direccion: "Calle 123 #45-67, Villavicencio",
-    horario: "Lunes - Viernes: 10 AM - 7 PM",
-    foto: "https://th.bing.com/th/id/OIP.Bboy_Os1bmV4bJH-LP3FZwHaE8?rs=1&pid=ImgDetMain",
-  },
-  {
-    id: 2,
-    nombre: "Tattoo Master",
-    ciudad: "Bogotá",
-    instagram: "@tattoo_master",
-    especialidad: "Realismo",
-    experiencia: 10,
-    direccion: "Calle 123 #45-67, Villavicencio",
-    horario: "Lunes - Viernes: 10 AM - 7 PM",
-    foto: "https://cdn2.telediario.mx/uploads/media/2023/01/31/cesar-eduardo-porras-gonzalez-conocido.jpg",
-  },
-  {
-    id: 1,
-    nombre: "Carlos Ink",
-    ciudad: "Villavicencio",
-    instagram: "@carlos_ink",
-    especialidad: "Realismo",
-    experiencia: 10,
-    direccion: "Calle 123 #45-67, Villavicencio",
-    horario: "Lunes - Viernes: 10 AM - 7 PM",
-    foto: "https://th.bing.com/th/id/OIP.Bboy_Os1bmV4bJH-LP3FZwHaE8?rs=1&pid=ImgDetMain",
-  },
-  {
-    id: 2,
-    nombre: "Tattoo Master",
-    ciudad: "Bogotá",
-    instagram: "@tattoo_master",
-    especialidad: "Realismo",
-    experiencia: 10,
-    direccion: "Calle 123 #45-67, Villavicencio",
-    horario: "Lunes - Viernes: 10 AM - 7 PM",
-    foto: "https://cdn2.telediario.mx/uploads/media/2023/01/31/cesar-eduardo-porras-gonzalez-conocido.jpg",
-  },
-  {
-    id: 3,
-    nombre: "Black Shadow",
-    ciudad: "Medellín",
-    instagram: "@black_shadow",
-    especialidad: "Realismo",
-    experiencia: 10,
-    direccion: "Calle 123 #45-67, Villavicencio",
-    horario: "Lunes - Viernes: 10 AM - 7 PM",
-    foto: "https://th.bing.com/th/id/OIP.Bboy_Os1bmV4bJH-LP3FZwHaE8?rs=1&pid=ImgDetMain",
-  },
-  {
-    id: 3,
-    nombre: "Black Shadow",
-    ciudad: "Medellín",
-    instagram: "@black_shadow",
-    especialidad: "Realismo",
-    experiencia: 10,
-    direccion: "Calle 123 #45-67, Villavicencio",
-    horario: "Lunes - Viernes: 10 AM - 7 PM",
-    foto: "https://th.bing.com/th/id/OIP.Bboy_Os1bmV4bJH-LP3FZwHaE8?rs=1&pid=ImgDetMain",
-  },
-  {
-    id: 4,
-    nombre: "Ink Vision",
-    ciudad: "Cali",
-    instagram: "@ink_vision",
-    especialidad: "Realismo",
-    experiencia: 10,
-    direccion: "Calle 123 #45-67, Villavicencio",
-    horario: "Lunes - Viernes: 10 AM - 7 PM",
-    foto: "https://th.bing.com/th/id/OIP.9Krdd5nRzjjE2ikQ60zhUwAAAA?rs=1&pid=ImgDetMain",
-  },
-  {
-    id: 5,
-    nombre: "Ink Vision",
-    ciudad: "Cali",
-    instagram: "@ink_vision",
-    especialidad: "Realismo",
-    experiencia: 10,
-    direccion: "Calle 123 #45-67, Villavicencio",
-    horario: "Lunes - Viernes: 10 AM - 7 PM",
-    foto: "https://th.bing.com/th/id/OIP.9Krdd5nRzjjE2ikQ60zhUwAAAA?rs=1&pid=ImgDetMain",
-  },
-]);
+const tattooists = ref([]);
+
+onMounted(() => {
+  getTattooArtists().then((response) => {
+    console.log(response.data);
+    tattooists.value = response.data;
+  });
+})
 </script>
 
 <template>
@@ -104,20 +23,21 @@ const tatuadores = ref([
     <h1 class="mb-6 text-center font-bold text-tatto">Tatuadores</h1>
 
     <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-      <div v-for="tatuador in tatuadores" :key="tatuador.id"
+      <div v-for="tattooist in tattooists" :key="tattooist._id"
         class="relative cursor-pointer break-inside-avoid overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition group"
-        @click="router.push(`/artists/profile/${tatuador.id}`)">
-        <img :src="tatuador.foto" alt="Foto del tatuador"
-          class="w-full h-full object-cover rounded-lg transition group-hover:brightness-75" />
+        @click="router.push(`/artists/profile/${tattooist._id}`)">
+        <img
+          :src="tattooist.photoPerfil?.url || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
+          alt="Foto del tatuador" class="w-full h-full object-cover rounded-lg transition group-hover:brightness-75" />
 
         <div class="right-0 top-0 absolute bg-dark p-2 text-white rounded-tl-lg rounded-br-lg">
-          {{ tatuador.especialidad }}
+          {{ tattooist.specialty }}
         </div>
 
         <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4">
-          <h2 class="text-xl font-semibold">{{ tatuador.nombre }}</h2>
-          <p class="font-bold opacity-60">{{ tatuador.instagram }}</p>
-          <p class="text-gray-400">{{ tatuador.direccion }}</p>
+          <h2 class="text-xl font-semibold">{{ tattooist.name }}</h2>
+          <!-- <p class="font-bold opacity-60">{{ tattooist.instagram }}</p> -->
+          <p class="text-gray-400">{{ tattooist.experience }}</p>
         </div>
       </div>
     </div>

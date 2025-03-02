@@ -42,17 +42,6 @@ const volver = () => {
         </div>
 
         <div>
-          <label class="block text-white mb-1">Teléfono</label>
-          <div class="flex gap-1">
-            <label class="w-16 h-full m-0 rounded bg-[#333] p-3 text-white text-center">
-              +57
-            </label>
-            <input name="number" type="tel" placeholder="Número de teléfono (opcional)"
-              class="rounded bg-[#333] flex-1 p-2 text-white focus:border-[#00e676] focus:outline-none" />
-          </div>
-        </div>
-
-        <div>
           <span class="text-neon text-xs">*Este correo tambien sera el de contacto para los clientes</span>
           <label class="block text-white mb-1">Correo Electrónico*</label>
           <input type="email" name="email" required placeholder="Ingresa tu correo"
