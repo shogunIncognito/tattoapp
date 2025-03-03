@@ -30,8 +30,8 @@ onMounted(() => {
                     class="w-full h-full object-cover rounded-lg transition group-hover:brightness-75 min-h-[300px]">
 
                 <div class="absolute top-0 left-0 w-full transparent bg-dark p-4 opacity-80">
-                    <h2 class="text-xl font-semibold">Tatuador: {{ tattoo.TattooArtist }}</h2>
-                    <p class="font-bold opacity-60">Tipo: {{ tattoo.TattooArtist }}</p>
+                    <h2 class="text-xl font-semibold">Tatuador: {{ tattoo.TattooArtist.name }}</h2>
+                    <p class="font-bold opacity-60">Tipo: {{ tattoo.TattooArtist.specialty }}</p>
                 </div>
 
                 <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4">

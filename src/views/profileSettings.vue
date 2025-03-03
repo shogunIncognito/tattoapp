@@ -13,6 +13,7 @@ import ProfilePhotoBanner from '../components/profile/ProfilePhotoBanner.vue';
 const router = useRouter();
 
 const tattooist = ref(null);
+const typeUser = ref(null);
 const loading = ref(true);
 const loadingUpdate = ref(false);
 
@@ -77,7 +78,14 @@ onMounted(() => {
     fetchUser()
         .then((res) => {
             console.log('Usuario:', res.data);
-            tattooist.value = res.data.tattooArtist;
+
+            if (res.data.type === 'tattooArtist') {
+                tattooist.value = res.data.tattooArtist;
+            } else {
+                tattooist.value = res.data.user;
+            }
+
+            typeUser.value = res.data.type;
             showFields.value = res.data.tattooArtist.socialNetworks || {};
         })
         .catch((error) => {
@@ -101,9 +109,9 @@ onMounted(() => {
             <h3 class="text-xl font-semibold mb-4">Editar información</h3>
 
             <div class="space-y-4">
-                <ProfilePhotoBanner :tattooist="tattooist" />
+                <ProfilePhotoBanner :user="tattooist" />
                 <div class="flex justify-between w-full gap-5">
-                    <form @submit.prevent="submitForm" class="w-full space-y-4">
+                    <form v-if="typeUser === 'tattooArtist'" @submit.prevent="submitForm" class="w-full space-y-4">
                         <div v-for="(value, key) in profileSettingFields.userData" :key="key">
                             <label :for="key" class="block text-sm mb-2 font-medium text-white">{{ value }}</label>
                             <div v-if="key !== 'specialty'" class="flex items-center space-x-2">
@@ -135,7 +143,8 @@ onMounted(() => {
                         </div>
                     </form>
 
-                    <form @submit.prevent="handleSocials" class="w-full space-y-4 justify-center">
+                    <form v-if="typeUser === 'tattooArtist'" @submit.prevent="handleSocials"
+                        class="w-full space-y-4 justify-center">
                         <h3 class="text-neon">Redes sociales</h3>
 
                         <span>Ej. <span class="text-blue-300">https://www.facebook.com/jhon_doe</span></span>
