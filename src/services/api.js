@@ -66,7 +66,6 @@ export async function updateProfileBanner(data) {
     });
 }
 
-
 // artists
 
 export async function getTattooArtists() {

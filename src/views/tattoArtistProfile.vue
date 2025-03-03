@@ -2,69 +2,152 @@
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getTattooArtistById } from "../services/api";
+import Spinner from "../components/Spinner.vue";
+import { FaFacebook, FaInstagram, FaTiktok } from "vue-icons-plus/fa";
+import { Fa6XTwitter } from "vue-icons-plus/fa6";
+import { deleteEmptyValues } from "../utils/functions";
 
 const router = useRouter();
-const { params } = useRoute();
+const { params } = useRoute()
 
-const tatuador = ref({
-    id: 1,
-    nombre: "Carlos Ink",
-    image: 'https://img.freepik.com/premium-photo/photo-young-man-barbershop-getting-his-hair-trimmed_747552-2444.jpg',
-    especialidad: "Realismo",
-    experiencia: 10,
-    redes_sociales: {
-        instagram: "@carlos_ink",
-        facebook: "Carlos Ink Tattoo",
-    },
-    portafolio: [
-        "https://3.bp.blogspot.com/-R_TcTfrUONM/WeenHyNcVtI/AAAAAAAAdQM/UmDQtnBXowk22AiuA3ZKy5HSuHqJ8SMcgCLcBGAs/s1600/tatuajes+mejores.jpg",
-        "https://nextluxury.com/wp-content/uploads/black-and-grey-shaded-male-moth-leg-sleeve-tattoo-ideas.jpg",
-        "https://outsons.com/wp-content/uploads/2022/07/Clock-Rose-And-Butterfly-Tattoo-Designs-768x960.jpg",
-    ],
-    direccion: "Calle 123 #45-67, Villavicencio",
-    horario: "Lunes - Viernes: 10 AM - 7 PM",
-});
+const tatooist = ref(null);
+const loading = ref(true);
 
 onMounted(() => {
-    getTattooArtistById(params.id).then((data) => {
-        console.log(data);
-        // tatuador.value = data;
-    });
+    console.log("ID:", params);
+
+    getTattooArtistById(params.id)
+        .then((res) => {
+            console.log("Usuario:", res);
+            tatooist.value = res.data;
+        })
+        .catch((error) => {
+            console.error("Error al obtener el usuario:", error);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
 })
+
+console.log(!loading, !tatooist);
+
+
 </script>
 
 <template>
-    <div class="min-h-screen bg-black p-5 text-white">
-        <div class="flex items-center gap-10">
-            <button @click="router.back()" class="text-[#00c853] hover:text-[#00e676]">← Volver</button>
-            <h1 class="text-3xl font-bold">Perfil del Tatuador</h1>
+    <div v-if="loading"
+        class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <Spinner />
+    </div>
+    <div v-else-if="!tatooist" class="h-screen bg-black p-5 text-white">
+        <div class="flex items-center gap-10 mb-10 flex-col justify-center h-full">
+            <h1 class="text-3xl font-bold">Tatuador no encontrado</h1>
+            <button @click="router.back()"
+                class="text-[#00c853] hover:text-[#00e676] p-2 bg-dark rounded">Volver</button>
         </div>
-        <div class="max-w-4xl mx-auto bg-[#1a1a1a] p-6 rounded-lg shadow-lg">
-            <div class="flex items-center gap-10">
-                <h1 class="text-3xl font-bold mb-4">{{ tatuador.nombre }}</h1>
-                <img :src="tatuador.image" alt="Foto del tatuador" class="w-40 rounded-full h-40 object-cover" />
+    </div>
+    <div v-else class="min-h-screen bg-black p-5 text-white">
+        <div class="flex items-center gap-10 mb-10">
+            <button @click="router.back()" class="text-[#00c853] hover:text-[#00e676]">← Volver</button>
+            <h1 class="text-3xl font-bold">Tu perfil</h1>
+        </div>
+        <div class="max-w-4xl mx-auto bg-[#1a1a1a] rounded-lg shadow-lg">
+            <div class="relative h-[17rem]">
+                <img :src="tatooist.photoBackground?.url || 'https://www.cristianroldan.art/wp-content/uploads/2020/10/escaparate-pintado-a-mano-estudio-de-tatuaje.jpg'"
+                    alt="banner del tatuador" class="w-full h-52 object-cover rounded" />
+                <img :src="tatooist.photoPerfil?.url || 'https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain'"
+                    alt="Foto del tatuador" class="w-40 bottom-1 left-4 absolute rounded-full h-40 object-cover" />
             </div>
-            <h1>ID: {{ $route.params.id }}</h1>
-            <p class="text-gray-400 mb-2"><strong>Especialidad:</strong> {{ tatuador.especialidad }}</p>
-            <p class="text-gray-400 mb-2"><strong>Años de experiencia:</strong> {{ tatuador.experiencia }}</p>
-            <p class="text-gray-400 mb-2"><strong>Dirección:</strong> {{ tatuador.direccion }}</p>
-            <p class="text-gray-400 mb-4"><strong>Horario:</strong> {{ tatuador.horario }}</p>
+            <div class="p-5">
+                <p v-if="tatooist.specialty && tatooist.specialty !== ''" class="text-gray-300 mb-2">
+                    <strong>Especialidad:</strong> {{ tatooist.specialty }}
+                </p>
+                <p v-if="tatooist.experience && tatooist.experience !== ''" class="text-gray-300 mb-2">
+                    <strong>Años de experiencia:</strong> {{ tatooist.experience }}
+                </p>
+                <p v-if="tatooist.address && tatooist.address !== ''" class="text-gray-300 mb-2">
+                    <strong>Dirección:</strong> {{ tatooist.address }}
+                </p>
+                <p v-if="tatooist.description && tatooist.description !== ''" class="text-gray-300 mb-2">
+                    <strong>Horario:</strong> {{ tatooist.description }}
+                </p>
+                <p v-if="tatooist.email && tatooist.email !== ''" class="text-gray-300 mb-4">
+                    <strong>Correo:</strong> {{ tatooist.email }}
+                </p>
 
-            <div class="mb-4">
-                <h2 class="text-xl font-semibold mb-2">Redes Sociales</h2>
-                <p v-if="tatuador.redes_sociales.instagram">Instagram: <a
-                        :href="`https://instagram.com/${tatuador.redes_sociales.instagram.replace('@', '')}`"
-                        target="_blank" class="text-[#00e676]">{{ tatuador.redes_sociales.instagram }}</a></p>
-                <p v-if="tatuador.redes_sociales.facebook">Facebook: <span class="text-[#00e676]">{{
-                    tatuador.redes_sociales.facebook }}</span></p>
-            </div>
-
-            <div>
-                <h2 class="text-xl font-semibold mb-2">Portafolio</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    <img v-for="(imagen, index) in tatuador.portafolio" :key="index" :src="imagen"
-                        alt="Tatuaje realizado" class="rounded-lg shadow-lg w-full h-40 object-cover" />
+                <div class="mb-4" v-if="Object.keys(deleteEmptyValues(tatooist.socialNetworks)).length > 0">
+                    <h2 class="text-xl font-semibold mb-2 text-neon">Redes Sociales</h2>
+                    <div class="flex gap-4">
+                        <a v-if="tatooist.socialNetworks.facebook" :href="tatooist.socialNetworks.facebook"
+                            target="_blank">
+                            <FaFacebook class="hover:text-[#1877f2] text-2xl transition-colors" />
+                        </a>
+                        <a v-if="tatooist.socialNetworks.instagram" :href="tatooist.socialNetworks.instagram"
+                            target="_blank">
+                            <FaInstagram class="hover:text-[#e1306c] text-2xl transition-colors" />
+                        </a>
+                        <a v-if="tatooist.socialNetworks.twitter" :href="tatooist.socialNetworks.twitter"
+                            target="_blank">
+                            <Fa6XTwitter class="hover:text-[#1da1f2] text-2xl transition-colors" />
+                        </a>
+                        <a v-if="tatooist.socialNetworks.tiktok" :href="tatooist.socialNetworks.tiktok" target="_blank">
+                            <FaTiktok class="hover:text-gray-400 text-2xl transition-colors" />
+                        </a>
+                    </div>
                 </div>
+
+                <div class="p-4">
+                    <h2 class="text-xl font-semibold mb-2">Portafolio</h2>
+                    <div v-if="tatooist.portfolio?.length > 0"
+                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <img v-for="(imagen, index) in tatooist.portafolio" :key="index" :src="imagen"
+                            alt="Tatuaje realizado" class="rounded-lg shadow-lg w-full h-40 object-cover" />
+                    </div>
+                    <div v-else class="flex flex-col justify-center items-center">
+                        <p class="text-center mt-10 mb-5">No hay tatuajes en el portafolio</p>
+                    </div>
+                </div>
+
+                <!-- // reviews de los clientes -->
+                <div class="p-4">
+                    <h2 class="text-xl font-semibold mb-2">Reseñas</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-dark rounded-lg shadow-lg p-4">
+                            <div class="flex items-center gap-4">
+                                <img src="https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain"
+                                    alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
+                                <div>
+                                    <h3 class="text-lg font-semibold">Jhoon</h3>
+                                    <p class="text-gray-400">2024-12-26</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 mt-4">Experiencia espectacular</p>
+                        </div>
+                        <div class="bg-dark rounded-lg shadow-lg p-4">
+                            <div class="flex items-center gap-4">
+                                <img src="https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain"
+                                    alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
+                                <div>
+                                    <h3 class="text-lg font-semibold">Jhoon</h3>
+                                    <p class="text-gray-400">2024-12-26</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 mt-4">Experiencia espectacular</p>
+                        </div>
+                        <div class="bg-dark rounded-lg shadow-lg p-4">
+                            <div class="flex items-center gap-4">
+                                <img src="https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain"
+                                    alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
+                                <div>
+                                    <h3 class="text-lg font-semibold">Jhoon</h3>
+                                    <p class="text-gray-400">2024-12-26</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 mt-4">Experiencia espectacular</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

@@ -37,6 +37,8 @@ const submitForm = (e) => {
     loadingUpdate.value = true;
     const formValues = Object.fromEntries(new FormData(e.target));
 
+    console.log(formValues);
+
     updateProfileInfo(formValues)
         .then((res) => {
             console.log('Información actualizada:', res.data);
@@ -81,12 +83,12 @@ onMounted(() => {
 
             if (res.data.type === 'tattooArtist') {
                 tattooist.value = res.data.tattooArtist;
+                showFields.value = res.data.tattooArtist.socialNetworks || {};
             } else {
                 tattooist.value = res.data.user;
             }
 
             typeUser.value = res.data.type;
-            showFields.value = res.data.tattooArtist.socialNetworks || {};
         })
         .catch((error) => {
             console.error('Error al obtener el usuario:', error);
@@ -112,7 +114,7 @@ onMounted(() => {
                 <ProfilePhotoBanner :user="tattooist" />
                 <div class="flex justify-between w-full gap-5">
                     <form v-if="typeUser === 'tattooArtist'" @submit.prevent="submitForm" class="w-full space-y-4">
-                        <div v-for="(value, key) in profileSettingFields.userData" :key="key">
+                        <div v-for="(value, key) in profileSettingFields.tattooist" :key="key">
                             <label :for="key" class="block text-sm mb-2 font-medium text-white">{{ value }}</label>
                             <div v-if="key !== 'specialty'" class="flex items-center space-x-2">
                                 <input :id="key" :name="key" v-model="tattooist[key]"
@@ -142,6 +144,31 @@ onMounted(() => {
                             </div>
                         </div>
                     </form>
+
+                    <!-- // formulario si no es tatuador, solamente puede cambiar el nombre -->
+                    <form v-else @submit.prevent="submitForm" class="w-full space-y-4">
+                        <div v-for="(value, key) in profileSettingFields.userData" :key="key">
+                            <label :for="key" class="block text-sm mb-2 font-medium text-white">{{ value }}</label>
+                            <div class="flex items-center space-x-2">
+                                <input :id="key" :name="key" v-model="tattooist[key]"
+                                    :type="key === 'email' ? 'email' : 'text'"
+                                    :required="['name', 'email'].includes(key)"
+                                    class="w-full p-2 bg-[#333333] text-white border border-transparent rounded focus:outline-none focus:border-[#00e676]" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex gap-2 mt-6">
+                                <button @click="router.back()" type="button"
+                                    class="px-4 py-2 bg-[#606060] rounded hover:bg-[#808080]">Volver</button>
+                                <button type="submit" :disabled="loadingUpdate"
+                                    class="px-4 py-2 bg-[#00c853] rounded hover:bg-[#1d9259] disabled:bg-[#606060] disabled:cursor-not-allowed">
+                                    Actualizar datos
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
 
                     <form v-if="typeUser === 'tattooArtist'" @submit.prevent="handleSocials"
                         class="w-full space-y-4 justify-center">

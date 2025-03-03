@@ -18,7 +18,7 @@ export const tattoosSpecialities = [
 ]
 
 export const profileSettingFields = {
-    userData: {
+    tattooist: {
         name: "Nombre",
         specialty: "Especialidad",
         numberPhone: "Teléfono",
@@ -32,6 +32,9 @@ export const profileSettingFields = {
         twitter: "Twitter",
         tiktok: "TikTok",
     },
+    userData: {
+        name: "Nombre",
+    }
 }
 
 export const commonRoutes = [

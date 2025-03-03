@@ -2,16 +2,27 @@
 import { onMounted, ref } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { getTattooArtists } from "../services/api";
+import Spinner from "../components/Spinner.vue";
+import { toast } from "vue3-toastify";
 
 const router = useRouter();
 
 const tattooists = ref([]);
+const loading = ref(true);
 
 onMounted(() => {
-  getTattooArtists().then((response) => {
-    console.log(response.data);
-    tattooists.value = response.data;
-  });
+  getTattooArtists()
+    .then((response) => {
+      console.log(response.data);
+      tattooists.value = response.data;
+    })
+    .catch((error) => {
+      console.error("Error al obtener los tatuadores:", error);
+      toast.error("Error al obtener los tatuadores");
+    })
+    .finally(() => {
+      loading.value = false;
+    })
 })
 </script>
 
@@ -22,7 +33,10 @@ onMounted(() => {
     </div>
     <h1 class="mb-6 text-center font-bold text-tatto">Tatuadores</h1>
 
-    <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+    <div v-if="loading" class="justify-center items-center flex w-full h-[27rem]">
+      <Spinner />
+    </div>
+    <div v-else class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
       <div v-for="tattooist in tattooists" :key="tattooist._id"
         class="relative cursor-pointer break-inside-avoid overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition group"
         @click="router.push(`/artists/profile/${tattooist._id}`)">
