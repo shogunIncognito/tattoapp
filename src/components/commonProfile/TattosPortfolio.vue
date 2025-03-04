@@ -3,12 +3,15 @@ import { onMounted, ref } from 'vue';
 import { getTattooistPosts } from '../../services/api';
 import { toast } from 'vue3-toastify';
 import { AiFillStar } from 'vue-icons-plus/ai';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Spinner from '../Spinner.vue';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const { tatooistId } = defineProps(['tatooistId'])
 
 const router = useRouter()
+const route = useRoute()
+const authStore = useAuthStore()
 
 const tattoos = ref([]);
 const loading = ref(true);
@@ -27,6 +30,7 @@ onMounted(() => {
             loading.value = false;
         })
 })
+
 </script>
 <template>
     <div class="p-4">
@@ -48,7 +52,8 @@ onMounted(() => {
         </div>
         <div v-else class="flex flex-col justify-center items-center">
             <p class="text-center mt-10 mb-5">No hay tatuajes en el portafolio</p>
-            <button class="bg-[#00c853] hover:bg-[#00e676] text-white py-2 px-4 rounded-lg">Agregar un
+            <button v-if="authStore.user.type === 'tattooArtist' && route.path.startsWith('/profile')"
+                class="bg-[#00c853] hover:bg-[#00e676] text-white py-2 px-4 rounded-lg">Agregar un
                 tatuaje</button>
         </div>
     </div>

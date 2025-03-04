@@ -1,26 +1,70 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getTattooArtistById } from "../services/api";
+import { createTattooistReview, getTattooArtistById, getTattooistReviews } from "../services/api";
 import Spinner from "../components/Spinner.vue";
 import { FaFacebook, FaInstagram, FaTiktok } from "vue-icons-plus/fa";
 import { Fa6XTwitter } from "vue-icons-plus/fa6";
 import { deleteEmptyValues } from "../utils/functions";
 import TattosPortfolio from "../components/commonProfile/TattosPortfolio.vue";
+import { AiFillStar } from "vue-icons-plus/ai";
+import { BiSolidPencil } from "vue-icons-plus/bi";
+import { toast } from "vue3-toastify";
+import { apiResponses } from "../utils/apiResponses";
+import { useAuthStore } from "../store/useAuthStore";
 
 const router = useRouter();
 const { params } = useRoute()
 
+const authStore = useAuthStore();
+
+
+
 const tatooist = ref(null);
 const loading = ref(true);
+const reviews = ref({});
+
+// Estado para nueva reseña
+const newReview = ref({
+    qualification: 0,
+    comment: "",
+});
+
+// Función para seleccionar estrellas
+const setRating = (value) => {
+    newReview.value.qualification = value;
+};
+
+// Función para agregar una reseña
+const addReview = () => {
+    if (newReview.value.qualification === 0) {
+        toast.error("Debes seleccionar una calificación");
+        return;
+    }
+
+    createTattooistReview(params.id, newReview.value)
+        .then((res) => {
+            console.log("Reseña creada:", res.data);
+            toast.success("Reseña creada");
+            newReview.value = {
+                qualification: 0,
+                comment: "",
+            };
+        })
+        .catch((error) => {
+            console.error("Error al crear la reseña:", error);
+            toast.error(apiResponses[error.response.data.message] || "Error al crear la reseña");
+        });
+
+};
 
 onMounted(() => {
-    console.log("ID:", params);
-
-    getTattooArtistById(params.id)
+    Promise.all([getTattooArtistById(params.id), getTattooistReviews(params.id)])
         .then((res) => {
-            console.log("Usuario:", res);
-            tatooist.value = res.data;
+            console.log("Usuario:", res[0].data);
+            tatooist.value = res[0].data;
+            console.log("Reseñas:", res[1].data);
+            reviews.value = res[1].data;
         })
         .catch((error) => {
             console.error("Error al obtener el usuario:", error);
@@ -29,10 +73,6 @@ onMounted(() => {
             loading.value = false;
         });
 })
-
-console.log(!loading, !tatooist);
-
-
 </script>
 
 <template>
@@ -61,13 +101,15 @@ console.log(!loading, !tatooist);
             </div>
 
             <div class="p-5">
-                <div class="flex justify-between gap-10">
-                    <div>
-                        <h1 class="text-3xl font-bold mb-4">{{ tatooist.name }}</h1>
+                <div v-if="reviews.averageQualification" class="flex justify-between gap-10">
+                    <div class="flex items-center gap-4 mb-4">
+                        <h1 class="text-3xl font-bold">{{ tatooist.name }}</h1>
+                        <div class="flex gap-1.5">
+                            <AiFillStar class="text-[#FFD700]" />
+                            <span class="text-gray-300 font-bold">{{ reviews.averageQualification.toString().slice(0, 3)
+                                || 0 }}</span>
+                        </div>
                     </div>
-                    <RouterLink to="/profile/settings">
-                        <BiSolidPencil class="text-[#00c853] text-4xl" />
-                    </RouterLink>
                 </div>
 
                 <p v-if="tatooist.specialty && tatooist.specialty !== ''" class="text-gray-300 mb-2">
@@ -113,39 +155,48 @@ console.log(!loading, !tatooist);
                 <div class="p-4">
                     <h2 class="text-xl font-semibold mb-2">Reseñas</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-dark rounded-lg shadow-lg p-4">
+                        <div v-for="review in reviews.Qualifications" class="bg-dark rounded-lg shadow-lg p-4">
                             <div class="flex items-center gap-4">
                                 <img src="https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain"
                                     alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
                                 <div>
                                     <h3 class="text-lg font-semibold">Jhoon</h3>
-                                    <p class="text-gray-400">2024-12-26</p>
+                                    <div class="flex items
+                                    -center gap-1">
+                                        <AiFillStar v-for="i in 5" :key="i" class="text-2xl"
+                                            :color="i <= review.qualification ? '#FFD700' : '#C0C0C0'" />
+                                    </div>
+
                                 </div>
                             </div>
-                            <p class="text-gray-300 mt-4">Experiencia espectacular</p>
+                            <p class="text-gray-300 mt-4">{{ review.comment }}</p>
                         </div>
-                        <div class="bg-dark rounded-lg shadow-lg p-4">
-                            <div class="flex items-center gap-4">
-                                <img src="https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain"
-                                    alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
-                                <div>
-                                    <h3 class="text-lg font-semibold">Jhoon</h3>
-                                    <p class="text-gray-400">2024-12-26</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-300 mt-4">Experiencia espectacular</p>
+                    </div>
+
+                    <!-- Formulario para añadir reseña -->
+                    <div v-if="authStore.user" class="mt-6 p-4 bg-[#1a1a1a] rounded-lg shadow-lg">
+                        <h3 class="text-lg font-semibold mb-2">Deja tu reseña</h3>
+
+                        <!-- Estrellas de calificación -->
+                        <div class="mb-3 flex">
+                            <AiFillStar v-for="i in 5" :key="i" class="text-2xl cursor-pointer" @click="setRating(i)"
+                                :color="i <= newReview.qualification ? '#FFD700' : '#C0C0C0'" />
                         </div>
-                        <div class="bg-dark rounded-lg shadow-lg p-4">
-                            <div class="flex items-center gap-4">
-                                <img src="https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain"
-                                    alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
-                                <div>
-                                    <h3 class="text-lg font-semibold">Jhoon</h3>
-                                    <p class="text-gray-400">2024-12-26</p>
-                                </div>
-                            </div>
-                            <p class="text-gray-300 mt-4">Experiencia espectacular</p>
+
+                        <!-- Comentario -->
+                        <div class="flex gap-3">
+                            <img :src="authStore.user.user?.photoPerfil?.url || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
+                                alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full mt-2" />
+                            <textarea v-model="newReview.comment" rows="3" placeholder="Escribe tu experiencia..."
+                                class="w-full p-2 bg-[#333333] border-2 border-transparent focus:border-[#00e676] text-white rounded-lg outline-none mb-3"></textarea>
                         </div>
+
+
+                        <!-- Botón para enviar -->
+                        <button @click="addReview"
+                            class="bg-[#00c853] text-white px-4 py-2 rounded transition hover:bg-[#555555]">
+                            Enviar Reseña
+                        </button>
                     </div>
                 </div>
 

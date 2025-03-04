@@ -1,22 +1,23 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getTattooPostById } from "../services/api";
+import { getTattooPostById, likeTattooPost, unlikeTattooPost } from "../services/api";
 import { toast } from "vue3-toastify";
 import { Io5ChevronBackOutline, Io5ChevronForwardOutline } from "vue-icons-plus/io5";
 import Spinner from "../components/Spinner.vue";
+import { AiFillStar, AiOutlineStar } from "vue-icons-plus/ai";
+import { useAuthStore } from "../store/useAuthStore";
 
 const route = useRoute();
 const router = useRouter();
 
-// Datos de ejemplo (reemplazar con una API real)
 const tattoo = ref(null);
 const loading = ref(true);
 
-// Estado del carrusel
+const authStore = useAuthStore();
+
 const currentIndex = ref(0);
 
-// Función para cambiar de imagen en el carrusel
 const nextImage = () => {
     currentIndex.value = (currentIndex.value + 1) % tattoo.value.images.length;
 };
@@ -24,6 +25,35 @@ const nextImage = () => {
 const prevImage = () => {
     currentIndex.value = (currentIndex.value - 1 + tattoo.value.images.length) % tattoo.value.images.length;
 };
+
+const userHasLiked = (tattoo) => {
+    if (!authStore.user) return false;
+    return tattoo.likes.includes(authStore.user.user._id);
+};
+
+const handleLike = (tattoToHandle) => {
+    if (!authStore.user) {
+        toast.error("Debes iniciar sesión para dar like");
+        return;
+    }
+
+    if (userHasLiked(tattoToHandle)) {
+        unlikeTattooPost(tattoToHandle._id)
+        tattoo.value = {
+            ...tattoo.value,
+            countLikes: tattoo.value.countLikes - 1,
+            likes: tattoo.value.likes.filter((like) => like !== authStore.user.user._id)
+        }
+    } else {
+        likeTattooPost(tattoToHandle._id)
+        tattoo.value = {
+            ...tattoo.value,
+            countLikes: tattoo.value.countLikes + 1,
+            likes: [...tattoo.value.likes, authStore.user.user._id]
+        }
+    }
+};
+
 
 onMounted(() => {
     getTattooPostById(route.params.id)
@@ -78,8 +108,9 @@ onMounted(() => {
                 <p class="mt-2 text-gray-300">{{ tattoo.description }}</p>
 
                 <!-- Likes -->
-                <div class="mt-3 flex items-center space-x-2">
-                    <span class="text-[#00e676] text-xl">⭐</span>
+                <div class="mt-3 flex items-center space-x-2 w-fit cursor-pointer" @click="handleLike(tattoo)">
+                    <AiFillStar v-if="userHasLiked(tattoo)" class="text-yellow-400" />
+                    <AiOutlineStar v-else class="text-yellow-400" />
                     <span class="text-lg font-bold">{{ tattoo.countLikes }}</span>
                 </div>
             </div>

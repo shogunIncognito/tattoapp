@@ -4,4 +4,5 @@ export const apiResponses = {
     "Email not verified": "Correo no verificado, por favor revisa tu correo",
     "User not found": "Correo y/o contraseña incorrectos",
     "Invalid password": "Correo y/o contraseña incorrectos",
+    "User already qualified": "Ya has calificado a este artista",
 }
