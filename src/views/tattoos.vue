@@ -4,6 +4,8 @@ import { RouterLink, useRouter } from "vue-router";
 import { getTattooPosts } from "../services/api";
 import Spinner from "../components/Spinner.vue";
 import { toast } from "vue3-toastify";
+import { BiStar } from "vue-icons-plus/bi";
+import { AiFillStar } from "vue-icons-plus/ai";
 
 const router = useRouter();
 
@@ -42,7 +44,7 @@ onMounted(() => {
 
                 <!-- Imagen del tatuaje -->
                 <img :src="tattoo.images[1].url" alt="Foto del tatuaje"
-                    @click="router.push(`/artists/profile/${tattoo._id}`)"
+                    @click="router.push(`/artists/tattoos/${tattoo._id}`)"
                     class="w-full h-full object-cover rounded-lg transition group-hover:brightness-75 min-h-[300px]">
 
                 <!-- Información del tatuador -->
@@ -54,7 +56,7 @@ onMounted(() => {
                 <!-- Indicador de likes o estrellas -->
                 <div
                     class="absolute top-3 right-3 flex items-center bg-black/70 px-3 py-1 rounded-full text-white text-sm">
-                    <span class="mr-1">⭐</span>
+                    <AiFillStar class="text-yellow-400 mr-1.5" />
                     <span class="font-bold">{{ tattoo.countLikes || 0 }}</span>
                 </div>
 

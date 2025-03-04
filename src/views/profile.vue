@@ -7,6 +7,7 @@ import { BiSolidPencil } from "vue-icons-plus/bi";
 import { FaFacebook, FaInstagram, FaTiktok } from "vue-icons-plus/fa";
 import { Fa6XTwitter } from "vue-icons-plus/fa6";
 import { deleteEmptyValues } from "../utils/functions";
+import TattosPortfolio from "../components/commonProfile/TattosPortfolio.vue";
 
 const router = useRouter();
 
@@ -93,19 +94,7 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <div class="p-4">
-                    <h2 class="text-xl font-semibold mb-2">Portafolio</h2>
-                    <div v-if="tatooist.portfolio?.length > 0"
-                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        <img v-for="(imagen, index) in tatooist.portafolio" :key="index" :src="imagen"
-                            alt="Tatuaje realizado" class="rounded-lg shadow-lg w-full h-40 object-cover" />
-                    </div>
-                    <div v-else class="flex flex-col justify-center items-center">
-                        <p class="text-center mt-10 mb-5">No hay tatuajes en el portafolio</p>
-                        <button class="bg-[#00c853] hover:bg-[#00e676] text-white py-2 px-4 rounded-lg">Agregar un
-                            tatuaje</button>
-                    </div>
-                </div>
+                <TattosPortfolio :tattooistId="tatooist._id" />
             </div>
         </div>
     </div>

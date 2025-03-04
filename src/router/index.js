@@ -58,6 +58,11 @@ const routes = [
         path: '/tattoos',
         name: 'tattoos',
         component: () => import('../views/tattoos.vue'),
+    },
+    {
+        path: '/artists/tattoos/:id',
+        name: 'tattoView',
+        component: () => import('../views/tattooView.vue'),
     }
 ];
 

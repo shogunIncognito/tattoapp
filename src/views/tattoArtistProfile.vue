@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner.vue";
 import { FaFacebook, FaInstagram, FaTiktok } from "vue-icons-plus/fa";
 import { Fa6XTwitter } from "vue-icons-plus/fa6";
 import { deleteEmptyValues } from "../utils/functions";
+import TattosPortfolio from "../components/commonProfile/TattosPortfolio.vue";
 
 const router = useRouter();
 const { params } = useRoute()
@@ -58,7 +59,17 @@ console.log(!loading, !tatooist);
                 <img :src="tatooist.photoPerfil?.url || 'https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain'"
                     alt="Foto del tatuador" class="w-40 bottom-1 left-4 absolute rounded-full h-40 object-cover" />
             </div>
+
             <div class="p-5">
+                <div class="flex justify-between gap-10">
+                    <div>
+                        <h1 class="text-3xl font-bold mb-4">{{ tatooist.name }}</h1>
+                    </div>
+                    <RouterLink to="/profile/settings">
+                        <BiSolidPencil class="text-[#00c853] text-4xl" />
+                    </RouterLink>
+                </div>
+
                 <p v-if="tatooist.specialty && tatooist.specialty !== ''" class="text-gray-300 mb-2">
                     <strong>Especialidad:</strong> {{ tatooist.specialty }}
                 </p>
@@ -96,17 +107,7 @@ console.log(!loading, !tatooist);
                     </div>
                 </div>
 
-                <div class="p-4">
-                    <h2 class="text-xl font-semibold mb-2">Portafolio</h2>
-                    <div v-if="tatooist.portfolio?.length > 0"
-                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        <img v-for="(imagen, index) in tatooist.portafolio" :key="index" :src="imagen"
-                            alt="Tatuaje realizado" class="rounded-lg shadow-lg w-full h-40 object-cover" />
-                    </div>
-                    <div v-else class="flex flex-col justify-center items-center">
-                        <p class="text-center mt-10 mb-5">No hay tatuajes en el portafolio</p>
-                    </div>
-                </div>
+                <TattosPortfolio :tatooistId="tatooist._id" />
 
                 <!-- // reviews de los clientes -->
                 <div class="p-4">

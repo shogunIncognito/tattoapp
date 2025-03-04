@@ -83,7 +83,7 @@ export async function getTattooPosts() {
 }
 
 export async function getTattooPostById(id) {
-    return await API.get(`/posts-tattoo-artist/get-post/${id}`);
+    return await API.get(`/posts-tattoo-artist/get-posts-byid/${id}`);
 }
 
 export async function createTattooPost(data) {
