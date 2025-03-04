@@ -4,7 +4,6 @@ import { RouterLink, useRouter } from "vue-router";
 import { getTattooPosts } from "../services/api";
 import Spinner from "../components/Spinner.vue";
 import { toast } from "vue3-toastify";
-import { BiStar } from "vue-icons-plus/bi";
 import { AiFillStar } from "vue-icons-plus/ai";
 
 const router = useRouter();

@@ -7,7 +7,7 @@ import { useRoute, useRouter } from 'vue-router';
 import Spinner from '../Spinner.vue';
 import { useAuthStore } from '../../store/useAuthStore';
 
-const { tatooistId } = defineProps(['tatooistId'])
+const { tattooistId } = defineProps(['tattooistId'])
 
 const router = useRouter()
 const route = useRoute()
@@ -17,7 +17,7 @@ const tattoos = ref([]);
 const loading = ref(true);
 
 onMounted(() => {
-    getTattooistPosts(tatooistId)
+    getTattooistPosts(tattooistId)
         .then((res) => {
             console.log(res.data);
             tattoos.value = res.data;
@@ -53,8 +53,10 @@ onMounted(() => {
         <div v-else class="flex flex-col justify-center items-center">
             <p class="text-center mt-10 mb-5">No hay tatuajes en el portafolio</p>
             <button v-if="authStore.user.type === 'tattooArtist' && route.path.startsWith('/profile')"
+                @click="router.push('/tattoos/create')"
                 class="bg-[#00c853] hover:bg-[#00e676] text-white py-2 px-4 rounded-lg">Agregar un
-                tatuaje</button>
+                tatuaje
+            </button>
         </div>
     </div>
 

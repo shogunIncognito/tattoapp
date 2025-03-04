@@ -82,12 +82,10 @@ onMounted(() => {
             console.log('Usuario:', res.data);
 
             if (res.data.type === 'tattooArtist') {
-                tattooist.value = res.data.tattooArtist;
-                showFields.value = res.data.tattooArtist.socialNetworks || {};
-            } else {
-                tattooist.value = res.data.user;
+                showFields.value = res.data.user.socialNetworks || {};
             }
 
+            tattooist.value = res.data.user;
             typeUser.value = res.data.type;
         })
         .catch((error) => {

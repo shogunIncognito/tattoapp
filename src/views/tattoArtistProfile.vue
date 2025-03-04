@@ -96,18 +96,17 @@ onMounted(() => {
             <div class="relative h-[17rem]">
                 <img :src="tatooist.photoBackground?.url || 'https://www.cristianroldan.art/wp-content/uploads/2020/10/escaparate-pintado-a-mano-estudio-de-tatuaje.jpg'"
                     alt="banner del tatuador" class="w-full h-52 object-cover rounded" />
-                <img :src="tatooist.photoPerfil?.url || 'https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain'"
+                <img :src="tatooist.photoPerfil?.url || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
                     alt="Foto del tatuador" class="w-40 bottom-1 left-4 absolute rounded-full h-40 object-cover" />
             </div>
 
             <div class="p-5">
-                <div v-if="reviews.averageQualification" class="flex justify-between gap-10">
+                <div class="flex justify-between gap-10">
                     <div class="flex items-center gap-4 mb-4">
                         <h1 class="text-3xl font-bold">{{ tatooist.name }}</h1>
-                        <div class="flex gap-1.5">
+                        <div v-if="reviews.averageQualification" class="flex gap-1.5">
                             <AiFillStar class="text-[#FFD700]" />
-                            <span class="text-gray-300 font-bold">{{ reviews.averageQualification.toString().slice(0, 3)
-                                || 0 }}</span>
+                            <span class="text-gray-300 font-bold">{{ reviews.averageQualification || 0 }}</span>
                         </div>
                     </div>
                 </div>
@@ -149,18 +148,18 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <TattosPortfolio :tatooistId="tatooist._id" />
+                <TattosPortfolio :tattooistId="tatooist._id" />
 
                 <!-- // reviews de los clientes -->
                 <div class="p-4">
                     <h2 class="text-xl font-semibold mb-2">Reseñas</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div v-if="reviews.Qualifications.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div v-for="review in reviews.Qualifications" class="bg-dark rounded-lg shadow-lg p-4">
                             <div class="flex items-center gap-4">
-                                <img src="https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain"
+                                <img :src="review.user.photoPerfil?.url || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
                                     alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
                                 <div>
-                                    <h3 class="text-lg font-semibold">Jhoon</h3>
+                                    <h3 class="text-lg font-semibold">{{ review.user.name }}</h3>
                                     <div class="flex items
                                     -center gap-1">
                                         <AiFillStar v-for="i in 5" :key="i" class="text-2xl"
@@ -172,9 +171,11 @@ onMounted(() => {
                             <p class="text-gray-300 mt-4">{{ review.comment }}</p>
                         </div>
                     </div>
+                    <div v-else class="text-center">No hay reseñas de este tatuador aún</div>
 
                     <!-- Formulario para añadir reseña -->
-                    <div v-if="authStore.user" class="mt-6 p-4 bg-[#1a1a1a] rounded-lg shadow-lg">
+                    <div v-if="authStore.user && authStore.user.type === 'user'"
+                        class="mt-6 p-4 bg-[#1a1a1a] rounded-lg shadow-lg">
                         <h3 class="text-lg font-semibold mb-2">Deja tu reseña</h3>
 
                         <!-- Estrellas de calificación -->

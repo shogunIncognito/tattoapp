@@ -26,7 +26,7 @@ createApp(App)
     .use(router)
     .use(pinia)
     .use(Vue3Toastify, {
-        autoClose: 1500,
+        autoClose: 3000,
         position: 'top-right',
         theme: 'dark',
         clearOnUrlChange: false

@@ -1,24 +1,38 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { RouterLink, useRouter } from "vue-router";
-import { fetchUser } from "../services/api";
+import { fetchUser, getTattooistReviews } from "../services/api";
 import Spinner from "../components/Spinner.vue";
 import { BiSolidPencil } from "vue-icons-plus/bi";
 import { FaFacebook, FaInstagram, FaTiktok } from "vue-icons-plus/fa";
 import { Fa6XTwitter } from "vue-icons-plus/fa6";
 import { deleteEmptyValues } from "../utils/functions";
 import TattosPortfolio from "../components/commonProfile/TattosPortfolio.vue";
+import { AiFillStar } from "vue-icons-plus/ai";
 
 const router = useRouter();
 
 const tatooist = ref(null);
 const loading = ref(true);
+const reviews = ref([]);
+const loadingReviews = ref(true);
 
 onMounted(() => {
     fetchUser()
         .then((res) => {
             console.log("Usuario:", res.data);
-            tatooist.value = res.data.tattooArtist;
+            tatooist.value = res.data.user;
+            getTattooistReviews(res.data.user._id)
+                .then((res) => {
+                    console.log("Reseñas:", res.data);
+                    reviews.value = res.data;
+                })
+                .catch((error) => {
+                    console.error("Error al obtener las reseñas:", error);
+                })
+                .finally(() => {
+                    loadingReviews.value = false;
+                });
         })
         .catch((error) => {
             console.error("Error al obtener el usuario:", error);
@@ -95,6 +109,30 @@ onMounted(() => {
                 </div>
 
                 <TattosPortfolio :tattooistId="tatooist._id" />
+
+                <!-- // reviews de los clientes -->
+                <div class="p-4">
+                    <h2 class="text-xl font-semibold mb-2">Reseñas</h2>
+                    <div v-if="reviews.Qualifications?.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div v-for="review in reviews.Qualifications" class="bg-dark rounded-lg shadow-lg p-4">
+                            <div class="flex items-center gap-4">
+                                <img src="https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain"
+                                    alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
+                                <div>
+                                    <h3 class="text-lg font-semibold">Jhoon</h3>
+                                    <div class="flex items
+                                    -center gap-1">
+                                        <AiFillStar v-for="i in 5" :key="i" class="text-2xl"
+                                            :color="i <= review.qualification ? '#FFD700' : '#C0C0C0'" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <p class="text-gray-300 mt-4">{{ review.comment }}</p>
+                        </div>
+                    </div>
+                    <div v-else class="text-center">No tienes reseñas</div>
+                </div>
             </div>
         </div>
     </div>
