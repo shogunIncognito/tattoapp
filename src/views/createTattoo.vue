@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { createTattooPost } from "../services/api";
 import { toast } from "vue3-toastify";
 import { BsFileImage } from "vue-icons-plus/bs";
+import Spinner from "../components/Spinner.vue";
 
 // Estado del formulario
 const description = ref("");
@@ -53,9 +54,8 @@ const submitTattoo = async () => {
     });
 
     createTattooPost(formData)
-        .then((res) => {
-            console.log("Tatuaje enviado:", res.data);
-            toast.success("Tatuaje enviado correctamente.");
+        .then(() => {
+            toast.success("Tatuaje creado correctamente.");
             description.value = "";
             images.value = [];
             previewImages.value = [];
@@ -104,9 +104,10 @@ const submitTattoo = async () => {
             </div>
 
             <!-- Botón para enviar -->
-            <button @click="submitTattoo"
+            <button @click="submitTattoo" :disabled="loading"
                 class="mt-4 w-full bg-[#00c853] text-white px-4 py-2 rounded-lg transition hover:bg-[#555555]">
-                Subir Tatuaje
+                <Spinner v-if="loading" class="w-full h-6" />
+                <span v-else>Subir Tatuaje</span>
             </button>
         </div>
     </div>

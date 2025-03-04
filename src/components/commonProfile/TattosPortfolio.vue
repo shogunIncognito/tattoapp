@@ -3,9 +3,10 @@ import { onMounted, ref } from 'vue';
 import { getTattooistPosts } from '../../services/api';
 import { toast } from 'vue3-toastify';
 import { AiFillStar } from 'vue-icons-plus/ai';
-import { useRoute, useRouter } from 'vue-router';
+import { RouterLink, useRoute, useRouter } from 'vue-router';
 import Spinner from '../Spinner.vue';
 import { useAuthStore } from '../../store/useAuthStore';
+import { CgAdd } from 'vue-icons-plus/cg';
 
 const { tattooistId } = defineProps(['tattooistId'])
 
@@ -35,6 +36,8 @@ onMounted(() => {
 <template>
     <div class="p-4">
         <h2 class="text-xl font-semibold mb-2">Portafolio</h2>
+
+
         <div v-if="loading" class="justify-center items-center flex w-full h-[14rem]">
             <Spinner />
         </div>
@@ -48,6 +51,13 @@ onMounted(() => {
                 </div>
                 <img :src="tattoo.images[0].url" alt="Tatuaje realizado"
                     class="rounded-lg shadow-lg w-full object-cover" />
+            </div>
+            <!-- // añadir una card que sea para agregar un nuevo tatuaje -->
+            <div v-if="authStore.user.type === 'tattooArtist' && route.path.startsWith('/profile')"
+                @click="router.push('/tattoos/create')"
+                class="flex items-center justify-center bg-[#00c853] hover:bg-[#00e677cc] text-white py-2 px-4 rounded-lg cursor-pointer">
+                <CgAdd size="28" class="text-white" />
+                <p class="ml-2">Agregar un tatuaje</p>
             </div>
         </div>
         <div v-else class="flex flex-col justify-center items-center">
