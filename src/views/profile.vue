@@ -9,6 +9,8 @@ import { Fa6XTwitter } from "vue-icons-plus/fa6";
 import { deleteEmptyValues } from "../utils/functions";
 import TattosPortfolio from "../components/commonProfile/TattosPortfolio.vue";
 import { AiFillStar } from "vue-icons-plus/ai";
+import { Io5ArrowBackOutline } from "vue-icons-plus/io5";
+import Reviews from "../components/commonProfile/Reviews.vue";
 
 const router = useRouter();
 
@@ -51,15 +53,19 @@ onMounted(() => {
     </div>
     <div v-else class="min-h-screen bg-black p-5 text-white">
         <div class="flex items-center gap-10 mb-10">
-            <button @click="router.back()" class="text-[#00c853] hover:text-[#00e676]">← Volver</button>
+            <button @click="router.back()" class="text-[#00c853] hover:text-[#00e676] flex items-center gap-2">
+                <Io5ArrowBackOutline />
+                Volver
+            </button>
             <h1 class="text-3xl font-bold">Tu perfil</h1>
         </div>
-        <div class="max-w-4xl mx-auto bg-[#1a1a1a] rounded-lg shadow-lg">
+        <div class="max-w-4xl mx-auto bg-[#1a1a1a] rounded-lg shadow-lg ring-neon">
             <div class="relative h-[17rem]">
                 <img :src="tatooist.photoBackground?.url || 'https://www.cristianroldan.art/wp-content/uploads/2020/10/escaparate-pintado-a-mano-estudio-de-tatuaje.jpg'"
-                    alt="banner del tatuador" class="w-full h-52 object-cover rounded" />
+                    alt="banner del tatuador" class="w-full h-52 object-cover rounded border-b-4 border-white" />
                 <img :src="tatooist.photoPerfil?.url || 'https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain'"
-                    alt="Foto del tatuador" class="w-40 bottom-1 left-4 absolute rounded-full h-40 object-cover" />
+                    alt="Foto del tatuador"
+                    class="w-40 bottom-1 left-4 absolute rounded-full h-40 object-cover border-4 border-white" />
             </div>
             <div class="p-5">
                 <div class="flex justify-between gap-10">
@@ -115,28 +121,7 @@ onMounted(() => {
                 <TattosPortfolio :tattooistId="tatooist._id" />
 
                 <!-- // reviews de los clientes -->
-                <div class="p-4">
-                    <h2 class="text-xl font-semibold mb-2">Reseñas</h2>
-                    <div v-if="reviews.Qualifications.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div v-for="review in reviews.Qualifications" class="bg-dark rounded-lg shadow-lg p-4">
-                            <div class="flex items-center gap-4">
-                                <img :src="review.user.photoPerfil?.url || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
-                                    alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
-                                <div>
-                                    <h3 class="text-lg font-semibold">{{ review.user.name }}</h3>
-                                    <div class="flex items
-                                    -center gap-1">
-                                        <AiFillStar v-for="i in 5" :key="i" class="text-2xl"
-                                            :color="i <= review.qualification ? '#FFD700' : '#C0C0C0'" />
-                                    </div>
-
-                                </div>
-                            </div>
-                            <p class="text-gray-300 mt-4">{{ review.comment }}</p>
-                        </div>
-                    </div>
-                    <div v-else class="text-center">No hay reseñas de este tatuador aún</div>
-                </div>
+                <Reviews :reviews="reviews" />
             </div>
         </div>
     </div>

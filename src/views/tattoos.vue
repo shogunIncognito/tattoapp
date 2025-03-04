@@ -5,6 +5,7 @@ import { getTattooPosts } from "../services/api";
 import Spinner from "../components/Spinner.vue";
 import { toast } from "vue3-toastify";
 import { AiFillStar } from "vue-icons-plus/ai";
+import { Io5ArrowBackOutline } from "vue-icons-plus/io5";
 
 const router = useRouter();
 
@@ -32,7 +33,10 @@ onMounted(() => {
 <template>
     <div class="min-h-screen bg-black p-5 text-white">
         <div class="flex items-center gap-10">
-            <RouterLink to="/" class="text-[#00c853] hover:text-[#00e676]">← Volver</RouterLink>
+            <RouterLink to="/" class="text-[#00c853] hover:text-[#00e676] flex items-center gap-2">
+                <Io5ArrowBackOutline />
+                Volver
+            </RouterLink>
         </div>
         <h1 class="mb-6 text-center font-bold text-tatto">Tatuajes</h1>
 
