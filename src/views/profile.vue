@@ -63,8 +63,12 @@ onMounted(() => {
             </div>
             <div class="p-5">
                 <div class="flex justify-between gap-10">
-                    <div>
-                        <h1 class="text-3xl font-bold mb-4">{{ tatooist.name }}</h1>
+                    <div class="flex items-center gap-4 mb-4">
+                        <h1 class="text-3xl font-bold">{{ tatooist.name }}</h1>
+                        <div v-if="reviews.averageQualification" class="flex gap-1.5">
+                            <AiFillStar class="text-[#FFD700]" />
+                            <span class="text-gray-300 font-bold">{{ reviews.averageQualification || 0 }}</span>
+                        </div>
                     </div>
                     <RouterLink to="/profile/settings">
                         <BiSolidPencil class="text-[#00c853] text-4xl" />

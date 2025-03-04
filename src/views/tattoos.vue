@@ -16,6 +16,8 @@ onMounted(() => {
         .then((res) => {
             console.log(res.data);
             tattoos.value = res.data;
+            console.log(res.data);
+
         })
         .catch((error) => {
             console.error("Error al obtener los tatuajes:", error);
@@ -42,7 +44,7 @@ onMounted(() => {
                 class="relative cursor-pointer break-inside-avoid overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition group">
 
                 <!-- Imagen del tatuaje -->
-                <img :src="tattoo.images[1].url" alt="Foto del tatuaje"
+                <img :src="tattoo.images[0].url" alt="Foto del tatuaje"
                     @click="router.push(`/artists/tattoos/${tattoo._id}`)"
                     class="w-full h-full object-cover rounded-lg transition group-hover:brightness-75 min-h-[300px]">
 
