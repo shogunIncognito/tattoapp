@@ -29,7 +29,6 @@ const addReview = () => {
 
     createTattooistReview(tattooistId, newReview.value)
         .then((res) => {
-            console.log("Reseña creada:", res.data);
             toast.success("Reseña creada");
             const newReview = {
                 ...res.data,
@@ -51,7 +50,6 @@ const updateReview = () => {
 
     updateTattooistReview(userReview.value._id, newReview.value)
         .then((res) => {
-            console.log("Reseña actualizada:", res.data);
             toast.success("Reseña actualizada");
             reviews.Qualifications = reviews.Qualifications.map((review) => {
                 if (review._id === userReview.value._id) {

@@ -58,7 +58,6 @@ const handleLike = (tattoToHandle) => {
 onMounted(() => {
     getTattooPostById(route.params.id)
         .then((res) => {
-            console.log("Tatuaje:", res.data);
             tattoo.value = res.data;
         })
         .catch((error) => {

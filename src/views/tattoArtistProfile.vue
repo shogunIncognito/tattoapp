@@ -22,9 +22,7 @@ const reviews = ref({});
 onMounted(() => {
     Promise.all([getTattooArtistById(params.id), getTattooistReviews(params.id)])
         .then((res) => {
-            console.log("Usuario:", res[0].data);
             tatooist.value = res[0].data;
-            console.log("Reseñas:", res[1].data);
             reviews.value = res[1].data;
         })
         .catch((error) => {

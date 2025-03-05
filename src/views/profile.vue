@@ -22,11 +22,9 @@ const loadingReviews = ref(true);
 onMounted(() => {
     fetchUser()
         .then((res) => {
-            console.log("Usuario:", res.data);
             tatooist.value = res.data.user;
             getTattooistReviews(res.data.user._id)
                 .then((res) => {
-                    console.log("Reseñas:", res.data);
                     reviews.value = res.data;
                 })
                 .catch((error) => {

@@ -14,7 +14,6 @@ const loading = ref(true);
 onMounted(() => {
   getTattooArtists()
     .then((response) => {
-      console.log(response.data);
       tattooists.value = response.data;
     })
     .catch((error) => {

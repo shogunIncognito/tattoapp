@@ -15,10 +15,7 @@ const loading = ref(true)
 onMounted(() => {
     getTattooPosts()
         .then((res) => {
-            console.log(res.data);
             tattoos.value = res.data;
-            console.log(res.data);
-
         })
         .catch((error) => {
             console.error("Error al obtener los tatuajes:", error);

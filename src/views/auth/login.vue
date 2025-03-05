@@ -24,8 +24,6 @@ const handleLogin = () => {
 
             await setSession(res.data.token);
 
-            console.log('settedsession');
-
             router.push('/');
         })
         .catch((error) => {

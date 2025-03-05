@@ -22,7 +22,7 @@ const handleImageToUpload = async (file, type) => {
 
         toast.success('Imagen actualizada correctamente, recarga la página para ver los cambios');
     } catch (error) {
-        console.log('Error al actualizar la imagen:', error);
+        console.error('Error al actualizar la imagen:', error);
     }
 };
 
@@ -32,8 +32,6 @@ const handleFileChange = (event, type) => {
         handleImageToUpload(file, type);
     }
 };
-
-console.log({ user });
 
 </script>
 

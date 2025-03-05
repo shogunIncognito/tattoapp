@@ -37,11 +37,8 @@ const submitForm = (e) => {
     loadingUpdate.value = true;
     const formValues = Object.fromEntries(new FormData(e.target));
 
-    console.log(formValues);
-
     updateProfileInfo(formValues)
         .then((res) => {
-            console.log('Información actualizada:', res.data);
             toast.success('Información actualizada');
         })
         .catch((error) => {
@@ -64,7 +61,6 @@ const handleSocials = () => {
 
     updateProfileSocial(socials)
         .then((res) => {
-            console.log('Redes sociales actualizadas:', res.data);
             toast.success('Redes sociales actualizadas');
         })
         .catch((error) => {
@@ -79,8 +75,6 @@ const handleSocials = () => {
 onMounted(() => {
     fetchUser()
         .then((res) => {
-            console.log('Usuario:', res.data);
-
             if (res.data.type === 'tattooArtist') {
                 showFields.value = res.data.user.socialNetworks || {};
             }
