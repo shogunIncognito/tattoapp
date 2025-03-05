@@ -5,6 +5,7 @@ import { getTattooArtists } from "../services/api";
 import Spinner from "../components/Spinner.vue";
 import { toast } from "vue3-toastify";
 import { Io5ArrowBackOutline } from "vue-icons-plus/io5";
+import { placeholderUserImage } from "../utils/consts";
 
 const router = useRouter();
 
@@ -43,9 +44,8 @@ onMounted(() => {
       <div v-for="tattooist in tattooists" :key="tattooist._id"
         class="relative cursor-pointer break-inside-avoid overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition group"
         @click="router.push(`/artists/profile/${tattooist._id}`)">
-        <img
-          :src="tattooist.photoPerfil?.url || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
-          alt="Foto del tatuador" class="w-full h-full object-cover rounded-lg transition group-hover:brightness-75" />
+        <img :src="tattooist.photoPerfil?.url || placeholderUserImage" alt="Foto del tatuador"
+          class="w-full h-full object-cover rounded-lg transition group-hover:brightness-75" />
 
         <div class="right-0 top-0 absolute bg-dark p-2 text-white rounded-tl-lg rounded-br-lg">
           {{ tattooist.specialty }}

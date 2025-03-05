@@ -45,8 +45,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div v-if="loading"
-        class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div v-if="loading" class="w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center min-h-screen">
         <Spinner />
     </div>
     <div v-else class="min-h-screen bg-black p-5 text-white">

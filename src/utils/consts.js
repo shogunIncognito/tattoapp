@@ -102,3 +102,5 @@ export const loggedRoutes = {
         }
     ]
 }
+
+export const placeholderUserImage = "https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg"
