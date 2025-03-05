@@ -2,8 +2,10 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import carrusel1 from '@/assets/carrusel1.jpg';
 import carrusel2 from '@/assets/carrusel2.jpg';
+import carrusel3 from '@/assets/carrusel3.webp';
+import carrusel4 from '@/assets/carrusel4.png';
 
-const imagenes = ref([carrusel1, carrusel2]);
+const imagenes = ref([carrusel1, carrusel2, carrusel3, carrusel4]);
 const indiceActual = ref(0);
 let intervalId = null;
 
