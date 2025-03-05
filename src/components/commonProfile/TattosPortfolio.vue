@@ -56,7 +56,7 @@ onMounted(() => {
             <div v-for="tattoo in tattoos" :key="tattoo._id" @click="router.push(`/artists/tattoos/${tattoo._id}`)"
                 class="relative cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition group">
                 <!-- // boton de eliminar tatuaje -->
-                <div v-if="authStore.user.type === 'tattooArtist' && route.path.startsWith('/profile')"
+                <div v-if="authStore.user?.type === 'tattooArtist' && route.path.startsWith('/profile')"
                     @click.stop="deleteTattoo(tattoo._id)"
                     class="absolute top-3 left-3 flex items-center h-10 w-10 rounded-full justify-center bg-red-500/70 text-white text-sm cursor-pointer">
                     <CgTrash size="21" class="text-white" />
@@ -70,7 +70,7 @@ onMounted(() => {
                     class="rounded-lg shadow-lg w-full object-cover" />
             </div>
             <!-- // añadir una card que sea para agregar un nuevo tatuaje -->
-            <div v-if="authStore.user.type === 'tattooArtist' && route.path.startsWith('/profile')"
+            <div v-if="authStore.user?.type === 'tattooArtist' && route.path.startsWith('/profile')"
                 @click="router.push('/tattoos/create')"
                 class="flex items-center justify-center min-h-[12rem] bg-[#00c853] hover:bg-[#00e677cc] text-white py-2 px-4 rounded-lg cursor-pointer">
                 <CgAdd size="28" class="text-white" />

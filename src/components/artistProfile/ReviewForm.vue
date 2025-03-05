@@ -67,7 +67,7 @@ const updateReview = () => {
 }
 
 onMounted(() => {
-    const existUserReview = reviews.Qualifications.find((review) => review.user._id === authStore.user.user._id);
+    const existUserReview = reviews.Qualifications.find((review) => review.user._id === authStore.user?.user._id);
 
     if (existUserReview) {
         userReview.value = existUserReview;

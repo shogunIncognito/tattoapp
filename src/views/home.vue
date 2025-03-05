@@ -2,13 +2,10 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import carrusel1 from '@/assets/carrusel1.jpg';
 import carrusel2 from '@/assets/carrusel2.jpg';
-import NavBar from '../components/NavBar.vue';
 
 const imagenes = ref([carrusel1, carrusel2]);
 const indiceActual = ref(0);
 let intervalId = null;
-
-
 
 const iniciarCarrusel = () => {
   intervalId = setInterval(() => {
@@ -44,9 +41,10 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- Contenido principal -->
-    <main class="main-content">
-      <div class="content-wrapper">
-        <h1 class="animate-title">¿Quieres un tatuaje?</h1>
+    <main class="main-content flex-col">
+      <h1 class="animate-title text-[4rem] md:text-[4rem]">Tatto <span class="text-neon">Ink</span></h1>
+      <div class="content-wrapper m-2">
+        <h1 class="animate-title text-[2.5rem] md:text-[3rem]">¿Quieres un tatuaje?</h1>
         <p class="animate-text">TE FACILITAMOS ENCONTRANDOLO, CON QUIÉN Y DONDE</p>
         <RouterLink to="/artists" class="main-button">
           EMPEZAR
@@ -181,7 +179,6 @@ onBeforeUnmount(() => {
 
 
 .animate-title {
-  font-size: 68px;
   font-family: "Pirata One", serif;
   margin-bottom: 20px;
   opacity: 0;
@@ -266,12 +263,6 @@ onBeforeUnmount(() => {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .nav-content {
-    max-width: 90vw;
-    overflow-x: auto;
-    border-radius: 25px;
-  }
-
   .nav-container {
     width: 100%;
     padding: 0 10px;
@@ -287,24 +278,12 @@ onBeforeUnmount(() => {
     font-size: 12px;
   }
 
-  .animate-title {
-    font-size: 42px;
-  }
-
   .animate-text {
     font-size: 18px;
   }
 }
 
 @media (max-width: 480px) {
-  .animate-title {
-    font-size: 36px;
-  }
-
-  .nav-content {
-    padding: 8px;
-  }
-
   .nav-item {
     padding: 5px 10px;
     font-size: 11px;
