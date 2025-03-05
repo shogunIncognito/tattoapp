@@ -1,64 +1,23 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { createTattooistReview, getTattooArtistById, getTattooistReviews } from "../services/api";
+import { getTattooArtistById, getTattooistReviews } from "../services/api";
 import Spinner from "../components/Spinner.vue";
 import { FaFacebook, FaInstagram, FaTiktok } from "vue-icons-plus/fa";
 import { Fa6XTwitter } from "vue-icons-plus/fa6";
 import { deleteEmptyValues } from "../utils/functions";
 import TattosPortfolio from "../components/commonProfile/TattosPortfolio.vue";
 import { AiFillStar } from "vue-icons-plus/ai";
-import { BiSolidPencil } from "vue-icons-plus/bi";
-import { toast } from "vue3-toastify";
-import { apiResponses } from "../utils/apiResponses";
-import { useAuthStore } from "../store/useAuthStore";
 import { Io5ArrowBackOutline } from "vue-icons-plus/io5";
 import Reviews from "../components/commonProfile/Reviews.vue";
+import ReviewForm from "../components/artistProfile/ReviewForm.vue";
 
 const router = useRouter();
 const { params } = useRoute()
 
-const authStore = useAuthStore();
-
-
-
 const tatooist = ref(null);
 const loading = ref(true);
 const reviews = ref({});
-
-// Estado para nueva reseña
-const newReview = ref({
-    qualification: 0,
-    comment: "",
-});
-
-// Función para seleccionar estrellas
-const setRating = (value) => {
-    newReview.value.qualification = value;
-};
-
-// Función para agregar una reseña
-const addReview = () => {
-    if (newReview.value.qualification === 0) {
-        toast.error("Debes seleccionar una calificación");
-        return;
-    }
-
-    createTattooistReview(params.id, newReview.value)
-        .then((res) => {
-            console.log("Reseña creada:", res.data);
-            toast.success("Reseña creada");
-            newReview.value = {
-                qualification: 0,
-                comment: "",
-            };
-        })
-        .catch((error) => {
-            console.error("Error al crear la reseña:", error);
-            toast.error(apiResponses[error.response.data.message] || "Error al crear la reseña");
-        });
-
-};
 
 onMounted(() => {
     Promise.all([getTattooArtistById(params.id), getTattooistReviews(params.id)])
@@ -95,7 +54,6 @@ onMounted(() => {
                 <Io5ArrowBackOutline />
                 Volver
             </button>
-            <h1 class="text-3xl font-bold">Tu perfil</h1>
         </div>
         <div class="max-w-4xl mx-auto bg-[#1a1a1a] rounded-lg shadow-lg ring-neon">
             <div class="relative h-[17rem]">
@@ -161,31 +119,7 @@ onMounted(() => {
                     <Reviews :reviews="reviews" />
 
                     <!-- Formulario para añadir reseña -->
-                    <div v-if="authStore.user && authStore.user.type === 'user'"
-                        class="mt-6 p-4 bg-[#1a1a1a] rounded-lg shadow-lg">
-                        <h3 class="text-lg font-semibold mb-2">Deja tu reseña</h3>
-
-                        <!-- Estrellas de calificación -->
-                        <div class="mb-3 flex">
-                            <AiFillStar v-for="i in 5" :key="i" class="text-2xl cursor-pointer" @click="setRating(i)"
-                                :color="i <= newReview.qualification ? '#FFD700' : '#C0C0C0'" />
-                        </div>
-
-                        <!-- Comentario -->
-                        <div class="flex gap-3">
-                            <img :src="authStore.user.user?.photoPerfil?.url || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
-                                alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full mt-2" />
-                            <textarea v-model="newReview.comment" rows="3" placeholder="Escribe tu experiencia..."
-                                class="w-full p-2 bg-[#333333] border-2 border-transparent focus:border-[#00e676] text-white rounded-lg outline-none mb-3"></textarea>
-                        </div>
-
-
-                        <!-- Botón para enviar -->
-                        <button @click="addReview"
-                            class="bg-[#00c853] text-white px-4 py-2 rounded transition hover:bg-[#555555]">
-                            Enviar Reseña
-                        </button>
-                    </div>
+                    <ReviewForm v-if="!loading" :reviews="reviews" />
                 </div>
 
             </div>

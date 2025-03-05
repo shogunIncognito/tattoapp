@@ -1,12 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getTattooistPosts } from '../../services/api';
+import { deleteTattooPost, getTattooistPosts } from '../../services/api';
 import { toast } from 'vue3-toastify';
 import { AiFillStar } from 'vue-icons-plus/ai';
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import Spinner from '../Spinner.vue';
 import { useAuthStore } from '../../store/useAuthStore';
-import { CgAdd } from 'vue-icons-plus/cg';
+import { CgAdd, CgTrash } from 'vue-icons-plus/cg';
 
 const { tattooistId } = defineProps(['tattooistId'])
 
@@ -16,6 +16,18 @@ const authStore = useAuthStore()
 
 const tattoos = ref([]);
 const loading = ref(true);
+
+const deleteTattoo = (tattooId) => {
+    deleteTattooPost(tattooId)
+        .then(() => {
+            toast.success("Tatuaje eliminado correctamente");
+            tattoos.value = tattoos.value.filter(tattoo => tattoo._id !== tattooId);
+        })
+        .catch((error) => {
+            console.error("Error al eliminar el tatuaje:", error);
+            toast.error("Error al eliminar el tatuaje");
+        })
+}
 
 onMounted(() => {
     getTattooistPosts(tattooistId)
@@ -37,13 +49,18 @@ onMounted(() => {
     <div class="p-4">
         <h2 class="text-xl font-semibold mb-2">Portafolio</h2>
 
-
         <div v-if="loading" class="justify-center items-center flex w-full h-[14rem]">
             <Spinner />
         </div>
         <div v-else-if="tattoos.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div v-for="tattoo in tattoos" :key="tattoo._id" @click="router.push(`/artists/tattoos/${tattoo._id}`)"
                 class="relative cursor-pointer overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition group">
+                <!-- // boton de eliminar tatuaje -->
+                <div v-if="authStore.user.type === 'tattooArtist' && route.path.startsWith('/profile')"
+                    @click.stop="deleteTattoo(tattoo._id)"
+                    class="absolute top-3 left-3 flex items-center h-10 w-10 rounded-full justify-center bg-red-500/70 text-white text-sm cursor-pointer">
+                    <CgTrash size="21" class="text-white" />
+                </div>
                 <div
                     class="absolute top-3 right-3 flex items-center bg-black/70 px-3 py-1 rounded-full text-white text-sm">
                     <AiFillStar class="text-yellow-400 mr-1.5" size="18" />
@@ -55,7 +72,7 @@ onMounted(() => {
             <!-- // añadir una card que sea para agregar un nuevo tatuaje -->
             <div v-if="authStore.user.type === 'tattooArtist' && route.path.startsWith('/profile')"
                 @click="router.push('/tattoos/create')"
-                class="flex items-center justify-center bg-[#00c853] hover:bg-[#00e677cc] text-white py-2 px-4 rounded-lg cursor-pointer">
+                class="flex items-center justify-center min-h-[12rem] bg-[#00c853] hover:bg-[#00e677cc] text-white py-2 px-4 rounded-lg cursor-pointer">
                 <CgAdd size="28" class="text-white" />
                 <p class="ml-2">Agregar un tatuaje</p>
             </div>

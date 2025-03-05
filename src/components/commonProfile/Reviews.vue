@@ -18,7 +18,6 @@ const { reviews } = defineProps(['reviews']);
                             <AiFillStar v-for="i in 5" :key="i" class="text-2xl"
                                 :color="i <= review.qualification ? '#FFD700' : '#C0C0C0'" />
                         </div>
-
                     </div>
                 </div>
                 <p class="text-gray-300 mt-4">{{ review.comment }}</p>

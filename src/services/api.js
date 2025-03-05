@@ -123,7 +123,15 @@ export async function unlikeTattooPost(id) {
 }
 
 export async function createTattooistReview(idTattooist, data) {
-    return await API.post(`qualification-of-tatto-artist/create-qualification/${idTattooist}`, data, {
+    return await API.post(`/qualification-of-tatto-artist/create-qualification/${idTattooist}`, data, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
+
+export async function updateTattooistReview(idReview, data) {
+    return await API.patch(`/qualification-of-tatto-artist/update-qualification/${idReview}`, data, {
         headers: {
             Authorization: `Bearer ${getToken()}`,
         },
@@ -131,5 +139,5 @@ export async function createTattooistReview(idTattooist, data) {
 }
 
 export async function getTattooistReviews(idTattooist) {
-    return await API.get(`qualification-of-tatto-artist/get-find-calification/${idTattooist}`);
+    return await API.get(`/qualification-of-tatto-artist/get-find-calification/${idTattooist}`);
 }
