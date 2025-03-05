@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useAuthStore } from '../store/useAuthStore';
 
 const routes = [
     {
@@ -77,5 +78,22 @@ const router = createRouter({
     history: createWebHistory(), // Usa process.env.BASE_URL para Vue CLI
     routes,
 });
+
+
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore()
+
+    console.log(authStore.user);
+
+
+    if (to.meta.requiresAuth && !authStore.token) {
+        next('/login')
+    } else if (['/login', '/register-user', '/register-tatto'].includes(to.path) && authStore.token) {
+        next('/')
+    } else {
+        next()
+    }
+})
+
 
 export default router;
