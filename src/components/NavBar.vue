@@ -39,8 +39,8 @@ const handleLogout = () => {
                     class="cursor-pointer px-4 py-2 rounded-full text-white text-sm transition-all duration-300 border border-transparent hover:bg-white/10 hover:border-white/20">
                     {{ item.name }}
                 </li>
-                <li v-if="authStore.user" @click="handleLogout; isOpen = false"
-                    class="cursor-pointer px-4 py-2 rounded-full text-white text-sm transition-all duration-300 border border-transparent hover:bg-white/10 hover:border-white/20">
+                <li v-if="authStore.user" @click="handleLogout(); isOpen = false"
+                    class="cursor-pointer z-20 px-4 py-2 rounded-full text-white text-sm transition-all duration-300 border border-transparent hover:bg-white/10 hover:border-white/20">
                     <BiExit />
                 </li>
             </ul>
