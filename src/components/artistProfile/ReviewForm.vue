@@ -6,7 +6,7 @@ import { apiResponses } from '../../utils/apiResponses';
 import { createTattooistReview, updateTattooistReview } from '../../services/api';
 import { onMounted, ref } from 'vue';
 
-const { reviews } = defineProps(['reviews'])
+const { reviews, tattooistId } = defineProps(['reviews', 'tattooistId']);
 
 const authStore = useAuthStore();
 
@@ -27,11 +27,15 @@ const addReview = () => {
         return;
     }
 
-    createTattooistReview(params.id, newReview.value)
+    createTattooistReview(tattooistId, newReview.value)
         .then((res) => {
             console.log("Reseña creada:", res.data);
             toast.success("Reseña creada");
-            reviews.Qualifications.push(res.data);
+            const newReview = {
+                ...res.data,
+                user: authStore.user.user,
+            };
+            reviews.Qualifications.push(newReview);
         })
         .catch((error) => {
             console.error("Error al crear la reseña:", error);

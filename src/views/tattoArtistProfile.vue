@@ -119,7 +119,7 @@ onMounted(() => {
                     <Reviews :reviews="reviews" />
 
                     <!-- Formulario para añadir reseña -->
-                    <ReviewForm v-if="!loading" :reviews="reviews" />
+                    <ReviewForm v-if="!loading" :reviews="reviews" :tattooistId="params.id" />
                 </div>
 
             </div>
