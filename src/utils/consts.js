@@ -25,6 +25,7 @@ export const profileSettingFields = {
         experience: "Experiencia",
         address: "Dirección",
         description: "Descripción",
+        schedule: "Horario",
     },
     userSocial: {
         facebook: "Facebook",

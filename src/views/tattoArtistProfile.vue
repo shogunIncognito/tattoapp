@@ -82,11 +82,14 @@ onMounted(() => {
                 <p v-if="tatooist.address && tatooist.address !== ''" class="text-gray-300 mb-2">
                     <strong>Dirección:</strong> {{ tatooist.address }}
                 </p>
-                <p v-if="tatooist.description && tatooist.description !== ''" class="text-gray-300 mb-2">
-                    <strong>Horario:</strong> {{ tatooist.description }}
+                <p v-if="tatooist.schedule && tatooist.schedule !== ''" class="text-gray-300 mb-2">
+                    <strong>Horario:</strong> {{ tatooist.schedule }}
                 </p>
                 <p v-if="tatooist.email && tatooist.email !== ''" class="text-gray-300 mb-4">
                     <strong>Correo:</strong> {{ tatooist.email }}
+                </p>
+                <p v-if="tatooist.description && tatooist.description !== ''" class="text-gray-300 mb-4">
+                    <strong></strong> {{ tatooist.description }}
                 </p>
 
                 <div class="mb-4" v-if="Object.keys(deleteEmptyValues(tatooist.socialNetworks)).length > 0">
