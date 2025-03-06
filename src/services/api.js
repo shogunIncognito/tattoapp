@@ -34,6 +34,14 @@ export async function fetchUser() {
 
 // profile
 
+export async function updateProfileName(data) {
+    return await API.patch("/settings-users/update-user", data, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
+
 export async function updateProfileInfo(data) {
     return await API.patch("/settings-users/update-tattoo-artist", data, {
         headers: {

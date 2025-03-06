@@ -83,9 +83,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore()
 
-    console.log(authStore.user);
-
-
     if (to.meta.requiresAuth && !authStore.token) {
         next('/login')
     } else if (['/login', '/register-user', '/register-tatto'].includes(to.path) && authStore.token) {

@@ -5,7 +5,7 @@ import { IoRemoveCircleOutline } from 'vue-icons-plus/io';
 import { CgAdd } from 'vue-icons-plus/cg';
 import { useRouter } from 'vue-router';
 import { checkIfValidsSocialsURL, getApiErrorMessage } from '../utils/functions';
-import { fetchUser, updateProfileInfo, updateProfileSocial } from '../services/api';
+import { fetchUser, updateProfileInfo, updateProfileName, updateProfileSocial } from '../services/api';
 import Spinner from '../components/Spinner.vue';
 import { toast } from 'vue3-toastify';
 import ProfilePhotoBanner from '../components/profile/ProfilePhotoBanner.vue';
@@ -33,21 +33,26 @@ const showFields = ref({
     tiktok: ""
 })
 
-const submitForm = (e) => {
+const submitForm = async (e) => {
     loadingUpdate.value = true;
     const formValues = Object.fromEntries(new FormData(e.target));
 
-    updateProfileInfo(formValues)
-        .then((res) => {
-            toast.success('Información actualizada');
-        })
-        .catch((error) => {
-            console.error('Error al actualizar la información:', error);
-            toast.error(getApiErrorMessage(error.response.data.message) || 'Error al actualizar la información');
-        })
-        .finally(() => {
-            loadingUpdate.value = false;
-        });
+    const updateOptions = {
+        'user': () => updateProfileName({ name: formValues.name }),
+        'tattooArtist': () => updateProfileInfo(formValues)
+    }
+
+    try {
+        await updateOptions[typeUser.value]();
+        toast.success('Información actualizada');
+    }
+    catch (error) {
+        console.error('Error al actualizar la información:', error);
+        toast.error(getApiErrorMessage(error.response.data.message) || 'Error al actualizar la información');
+    }
+    finally {
+        loadingUpdate.value = false;
+    };
 };
 
 const handleSocials = () => {
@@ -94,8 +99,7 @@ onMounted(() => {
 
 <template>
     <div class="min-h-screen flex items-center justify-center bg-black text-white p-4">
-        <div v-if="loading"
-            class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div v-if="loading" class="min-h-screen bg-black bg-opacity-50 z-50 flex items-center justify-center">
             <Spinner />
         </div>
         <div v-else class="w-full max-w-3xl bg-[#1a1a1a] p-6 rounded-lg shadow-lg">
