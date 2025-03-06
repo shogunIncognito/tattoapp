@@ -37,6 +37,11 @@ const handleLike = (tattoToHandle) => {
         return;
     }
 
+    if (authStore.user.user._id === tattoToHandle.TattooArtist._id) {
+        toast.warning("No puedes dar like a tus propios tatuajes");
+        return;
+    }
+
     if (userHasLiked(tattoToHandle)) {
         unlikeTattooPost(tattoToHandle._id)
         tattoo.value = {
@@ -89,7 +94,7 @@ onMounted(() => {
             <!-- Carrusel de imágenes -->
             <div class="relative w-full overflow-hidden rounded-lg">
                 <img :src="tattoo.images[currentIndex].url" alt="Tatuaje"
-                    class="w-full object-cover rounded-lg transition duration-300">
+                    class="mx-auto h-[30rem] object-cover rounded-lg transition duration-300">
 
                 <!-- Botones de navegación del carrusel -->
                 <button @click="prevImage"
@@ -107,7 +112,8 @@ onMounted(() => {
                 <p class="mt-2 text-gray-300">{{ tattoo.description }}</p>
 
                 <!-- Likes -->
-                <div class="mt-3 flex items-center space-x-2 w-fit cursor-pointer" @click="handleLike(tattoo)">
+                <div class="mt-3 flex items-center space-x-2 hover:text-yellow-400 w-fit cursor-pointer"
+                    @click="handleLike(tattoo)">
                     <AiFillStar v-if="userHasLiked(tattoo)" class="text-yellow-400" />
                     <AiOutlineStar v-else class="text-yellow-400" />
                     <span class="text-lg font-bold">{{ tattoo.countLikes }}</span>
