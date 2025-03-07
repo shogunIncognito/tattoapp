@@ -9,4 +9,6 @@ export const apiResponses = {
     "description must be longer than or equal to 3 characters": "La descripción debe tener al menos 3 caracteres",
     "instagram must be longer than or equal to 3 characters": "Instagram debe tener al menos 3 caracteres",
     "facebook must be longer than or equal to 3 characters": "Facebook debe tener al menos 3 caracteres",
+    "Unauthorized artist": "Artista no autorizado",
+    "Unauthorized user": "Usuario no autorizado",
 }
