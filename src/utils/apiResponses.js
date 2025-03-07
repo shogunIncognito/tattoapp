@@ -5,4 +5,8 @@ export const apiResponses = {
     "User not found": "Correo y/o contraseña incorrectos",
     "Invalid password": "Correo y/o contraseña incorrectos",
     "User already qualified": "Ya has calificado a este artista",
+    "address must be longer than or equal to 3 characters": "La dirección debe tener al menos 3 caracteres",
+    "description must be longer than or equal to 3 characters": "La descripción debe tener al menos 3 caracteres",
+    "instagram must be longer than or equal to 3 characters": "Instagram debe tener al menos 3 caracteres",
+    "facebook must be longer than or equal to 3 characters": "Facebook debe tener al menos 3 caracteres",
 }

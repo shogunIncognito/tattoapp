@@ -14,7 +14,7 @@ const registerTattooist = (e) => {
   const data = deleteEmptyValues(Object.fromEntries(new FormData(e.target)));
 
   registerTatto(data)
-    .then((res) => {
+    .then(() => {
       toast.success("Revisa tu correo para confirmar tu registro");
       verificationEmail.value = true;
     })
@@ -42,7 +42,7 @@ const volver = () => {
         </div>
 
         <div>
-          <span class="text-neon text-xs">*Este correo tambien sera el de contacto para los clientes</span>
+          <span class="text-neon text-xs">*Este correo también será el de contacto para los clientes</span>
           <label class="block text-white mb-1">Correo Electrónico*</label>
           <input type="email" name="email" required placeholder="Ingresa tu correo"
             class="w-full rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none" />
@@ -66,19 +66,36 @@ const volver = () => {
           </select>
         </div>
 
-        <!-- <div>
-          <label class="block text-white mb-1">Ciudad</label>
-          <select required name="city"
-            class="w-full rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none">
-            <option value="" disabled selected>Selecciona tu ciudad</option>
-            <option class="bg-dark" v-for="ciudad in ciudades" :key="ciudad" :value="ciudad">{{ ciudad }}</option>
-          </select>
-        </div> -->
-
         <div>
           <label class="block text-white mb-1">Experiencia*</label>
-          <input type="text" name="experience" required placeholder="Ingresa tu experiencia en años, ej: 5 años"
+          <input type="text" required name="experience" placeholder="Ingresa tu experiencia en años, ej: 5 años"
             class="w-full rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-white mb-1">Instagram</label>
+          <input type="text" required name="instagram"
+            placeholder="Ingresa tu perfil de Instagram ej: https://instagram.com/tattooink"
+            class="w-full rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-white mb-1">Facebook</label>
+          <input type="text" required name="facebook"
+            placeholder="Ingresa tu perfil de Facebook ej: https://facebook.com/tattooink"
+            class="w-full rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-white mb-1">Dirección</label>
+          <input type="text" required name="address" placeholder="Ingresa tu dirección"
+            class="w-full rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-white mb-1">Descripción</label>
+          <textarea required name="description" placeholder="Describe tu estilo y experiencia"
+            class="w-full rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none"></textarea>
         </div>
 
         <div class="text-white text-center mb-5">
@@ -102,7 +119,7 @@ const volver = () => {
       <h2 class="mb-6 text-center text-2xl text-neon">¡Registro exitoso!</h2>
       <p class="text-center text-white">Revisa tu correo para confirmar tu registro</p>
       <RouterLink to="/login" class="block text-center text-[#00c853] hover:text-[#00e676] mt-4 bg-dark p-2 rounded">
-        Iniciar sesion
+        Iniciar sesión
       </RouterLink>
     </div>
   </div>

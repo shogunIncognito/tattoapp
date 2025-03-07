@@ -41,6 +41,7 @@ const volver = () => {
 
 <template>
     <div class="bg-black min-h-screen flex justify-center items-center p-5">
+        <h1 class="text-tattoo">Tattoo Ink</h1>
         <div class="bg-[#1a1a1a] p-10 rounded-lg w-full max-w-md ring-neon">
             <h2 class="text-white text-center mb-8 text-2xl">
                 Iniciar
