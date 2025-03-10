@@ -109,6 +109,10 @@ const submitTattoo = async () => {
                 <Spinner v-if="loading" class="w-full h-6" />
                 <span v-else>Subir Tatuaje</span>
             </button>
+            <button @click="$router.back()"
+                class="mt-2 w-full bg-[#5e5656] text-white px-4 py-2 rounded-lg transition hover:bg-[#555555]">
+                Volver
+            </button>
         </div>
     </div>
 </template>

@@ -18,15 +18,9 @@ const tattoos = ref([]);
 const loading = ref(true);
 
 const deleteTattoo = (tattooId) => {
+    toast.success("Tatuaje eliminado correctamente");
+    tattoos.value = tattoos.value.filter(tattoo => tattoo._id !== tattooId);
     deleteTattooPost(tattooId)
-        .then(() => {
-            toast.success("Tatuaje eliminado correctamente");
-            tattoos.value = tattoos.value.filter(tattoo => tattoo._id !== tattooId);
-        })
-        .catch((error) => {
-            console.error("Error al eliminar el tatuaje:", error);
-            toast.error("Error al eliminar el tatuaje");
-        })
 }
 
 onMounted(() => {
@@ -48,6 +42,16 @@ onMounted(() => {
     <div class="p-4">
         <h2 class="text-xl font-semibold mb-2">Portafolio</h2>
 
+        <!-- // añadir boton que sea para agregar un nuevo tatuaje -->
+        <div v-if="authStore.user?.type === 'tattooArtist' && route.path.startsWith('/profile')"
+            @click="router.push('/tattoos/create')"
+            class="flex items-center md:justify-end mb-4 justify-center gap-2 text-white rounded-lg cursor-pointer">
+            <button class="bg-[#00c853] hover:bg-[#00e676] flex items-center py-2 px-4 rounded-lg">
+                <CgAdd size="28" class="text-white" />
+                <p class="ml-2">Agregar un tatuaje</p>
+            </button>
+        </div>
+
         <div v-if="loading" class="justify-center items-center flex w-full h-[14rem]">
             <Spinner />
         </div>
@@ -67,13 +71,6 @@ onMounted(() => {
                 </div>
                 <img :src="tattoo.images[0].url" alt="Tatuaje realizado"
                     class="rounded-lg shadow-lg w-full object-cover" />
-            </div>
-            <!-- // añadir una card que sea para agregar un nuevo tatuaje -->
-            <div v-if="authStore.user?.type === 'tattooArtist' && route.path.startsWith('/profile')"
-                @click="router.push('/tattoos/create')"
-                class="flex items-center justify-center min-h-[12rem] bg-[#00c853] hover:bg-[#00e677cc] text-white py-2 px-4 rounded-lg cursor-pointer">
-                <CgAdd size="28" class="text-white" />
-                <p class="ml-2">Agregar un tatuaje</p>
             </div>
         </div>
         <div v-else class="flex flex-col justify-center items-center">
