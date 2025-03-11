@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { BiSend } from 'vue-icons-plus/bi';
 import { FiMessageCircle } from 'vue-icons-plus/fi';
 import { useAuthStore } from '../store/useAuthStore';
+import { sendMessageAI } from '../services/api';
 
 const { tattooist } = defineProps(['tattooist'])
 
@@ -18,12 +19,15 @@ const isOpen = ref(false);
 
 const sendMessage = () => {
     if (!input.value.trim()) return;
-    messages.value.push({ text: input.value, sender: 'user' });
-    input.value = '';
 
-    setTimeout(() => {
-        messages.value.push({ text: 'Lo siento, soy un bot de prueba.', sender: 'bot' });
-    }, 1000);
+    messages.value.push({ text: input.value, sender: 'user' });
+
+    sendMessageAI(input.value, tattooist._id)
+        .then((response) => {
+            messages.value.push({ text: response.data.message, sender: 'bot' });
+        })
+
+    input.value = '';
 };
 </script>
 

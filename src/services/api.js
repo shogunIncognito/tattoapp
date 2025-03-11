@@ -152,8 +152,24 @@ export async function getTattooistReviews(idTattooist) {
 
 // appointments
 
-export async function sendMessageAI(data) {
-    return await API.post("/chatbot/send-message", data, {
+export async function sendMessageAI(message, idTattooist) {
+    return await API.post(`/appointment/shedule/${idTattooist}`, { message }, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
+
+export async function getUserAppointments() {
+    return await API.get("/appointment/get-shedule-user", {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
+
+export async function getTattooistAppointments() {
+    return await API.get("/appointment/get-shedule-artist/", {
         headers: {
             Authorization: `Bearer ${getToken()}`,
         },

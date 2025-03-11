@@ -4,21 +4,46 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import esLocale from '@fullcalendar/core/locales/es'
 import { Io5ArrowBackOutline } from 'vue-icons-plus/io5';
 import { BsCalendarEvent } from 'vue-icons-plus/bs';
-import { onMounted } from 'vue';
-import ChatIA from '../components/ChatIA.vue';
+import { onMounted, ref } from 'vue';
+import { getTattooistAppointments, getUserAppointments } from '../services/api';
+import { useAuthStore } from '../store/useAuthStore';
 
-const citas = [
-    { id: 1, cliente: 'Juan Pérez', fecha: '2025-03-10T14:30:00', hora: '10:00 AM' },
-    { id: 2, cliente: 'María López', fecha: '2025-03-15T14:30:00', hora: '10:00 AM' },
-    { id: 3, cliente: 'Pedro Ramírez', fecha: '2025-03-20T14:30:00', hora: '10:00 AM' },
-    { id: 4, cliente: 'Ana Martínez', fecha: '2025-03-25T14:30:00', hora: '10:00 AM' },
-    { id: 5, cliente: 'José Rodríguez', fecha: '2025-03-30T14:30:00', hora: '10:00 AM' },
-    { id: 6, cliente: 'samuel', fecha: '2025-03-30T14:30:00', hora: '10:00 AM' },
-];
+const authStore = useAuthStore();
+
+const appointments = ref([]);
 
 onMounted(() => {
-    // get appointments from the API
+    if (authStore.user.type === 'user') {
+        getUserAppointments()
+            .then((response) => {
+                console.log(response.data);
+                appointments.value = response.data;
+            })
+    } else {
+        getTattooistAppointments()
+            .then((response) => {
+                console.log(response.data);
+                appointments.value = response.data;
+            })
+    }
 })
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString); // Asegurar que se interprete como UTC
+
+    // Formatear la fecha en un formato legible (Ej: 10 de marzo de 2025)
+    const formattedDate = date.toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    // Formatear la hora en formato de 24 horas (Ej: 14:30)
+    const formattedTime = dateString.split('T')[1].split(':').slice(0, 2).join(':');
+
+    return `${formattedDate} a las ${formattedTime}`;
+};
+
 </script>
 
 <template>
@@ -37,14 +62,17 @@ onMounted(() => {
                         <BsCalendarEvent class="text-neon" />
                         Citas Programadas
                     </h2>
-                    <ul v-if="citas.length > 0">
-                        <li v-for="cita in citas" :key="cita.id"
-                            class="p-3 mb-2 bg-gray-700 rounded-lg shadow hover:bg-gray-600 transition">
-                            <p class="text-lg font-medium">{{ cita.cliente }}</p>
-                            <p class="text-sm text-gray-300">{{ cita.fecha }} - {{ cita.hora }}</p>
+                    <ul v-if="appointments.length > 0">
+                        <li v-for="appointment in appointments" :key="appointment.id"
+                            class="p-3 mb-2 rounded-lg shadow hover:bg-gray-600 transition"
+                            :style="{ backgroundColor: appointment.color }">
+                            <p class="text-lg font-medium text-gray-900">{{ appointment.title }}</p>
+                            <p class="text-sm text-black">
+                                {{ formatDate(appointment.date) }}
+                            </p>
                         </li>
                     </ul>
-                    <p v-else class="text-center text-gray-400 mt-20">No hay citas programadas</p>
+                    <p v-else class="text-center text-gray-400 md:mt-20">No hay citas programadas</p>
                 </div>
 
                 <!-- Calendario -->
@@ -53,10 +81,12 @@ onMounted(() => {
                         plugins: [dayGridPlugin],
                         initialView: 'dayGridMonth',
                         locale: esLocale,
-                        events: citas.map(cita => ({
-                            title: cita.cliente,
-                            date: cita.fecha,
-                            color: '#4ade80' // Verde para destacar eventos
+                        timeZone: 'UTC',
+                        eventTimeFormat: { hour: 'numeric', minute: '2-digit', meridiem: 'short' },
+                        events: appointments.map(appointment => ({
+                            title: appointment.title,
+                            date: appointment.date,
+                            color: appointment.color
                         })),
                         height: 'auto'
                     }" />
@@ -72,5 +102,18 @@ onMounted(() => {
     background-color: #1f2937 !important;
     color: white !important;
     border: 1px solid #374151;
+}
+
+/* Mejoras responsivas */
+@media (max-width: 768px) {
+    .fc .fc-toolbar-title {
+        font-size: 1.2rem;
+        /* Reducir tamaño del título en móvil */
+    }
+
+    .fc .fc-daygrid-day {
+        font-size: 0.9rem;
+        /* Ajustar el tamaño de los días */
+    }
 }
 </style>
