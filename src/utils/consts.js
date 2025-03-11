@@ -80,8 +80,8 @@ export const loggedRoutes = {
             route: '/profile',
         },
         {
-            name: 'CONTÁCTENOS',
-            route: '/contact',
+            name: 'MI AGENDA',
+            route: '/appointments',
         }
     ],
     userRoutes: [
@@ -96,6 +96,10 @@ export const loggedRoutes = {
         {
             name: 'AJUSTES DE PERFIL',
             route: '/profile/settings',
+        },
+        {
+            name: 'MI CITAS AGENDADAS',
+            route: '/appointments'
         },
         {
             name: 'CONTÁCTENOS',

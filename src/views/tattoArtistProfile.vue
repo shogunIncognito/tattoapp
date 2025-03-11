@@ -11,6 +11,7 @@ import { AiFillStar } from "vue-icons-plus/ai";
 import { Io5ArrowBackOutline } from "vue-icons-plus/io5";
 import Reviews from "../components/commonProfile/Reviews.vue";
 import ReviewForm from "../components/artistProfile/ReviewForm.vue";
+import ChatIA from "../components/ChatIA.vue";
 
 const router = useRouter();
 const { params } = useRoute()
@@ -47,6 +48,7 @@ onMounted(() => {
         </div>
     </div>
     <div v-else class="min-h-screen bg-black p-5 text-white">
+        <ChatIA :tattooist="tatooist" />
         <div class="flex items-center gap-10 mb-10">
             <button @click="router.back()" class="text-[#00c853] hover:text-[#00e676] flex items-center gap-2">
                 <Io5ArrowBackOutline />

@@ -70,6 +70,11 @@ const routes = [
         name: 'createTattoo',
         component: () => import('../views/createTattoo.vue'),
         meta: { requiresAuth: true }
+    },
+    {
+        path: '/appointments',
+        name: 'tattooistAppointments',
+        component: () => import('../views/appointments.vue'),
     }
 ];
 

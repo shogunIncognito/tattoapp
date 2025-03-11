@@ -149,3 +149,13 @@ export async function updateTattooistReview(idReview, data) {
 export async function getTattooistReviews(idTattooist) {
     return await API.get(`/qualification-of-tatto-artist/get-find-calification/${idTattooist}`);
 }
+
+// appointments
+
+export async function sendMessageAI(data) {
+    return await API.post("/chatbot/send-message", data, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}
