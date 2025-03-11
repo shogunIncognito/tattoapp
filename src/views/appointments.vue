@@ -7,26 +7,27 @@ import { BsCalendarEvent } from 'vue-icons-plus/bs';
 import { onMounted, ref } from 'vue';
 import { getTattooistAppointments, getUserAppointments } from '../services/api';
 import { useAuthStore } from '../store/useAuthStore';
+import Spinner from '../components/Spinner.vue';
 
 const authStore = useAuthStore();
 
 const appointments = ref([]);
+const loading = ref(true);
 
-onMounted(() => {
-    if (authStore.user.type === 'user') {
-        getUserAppointments()
-            .then((response) => {
-                console.log(response.data);
-                appointments.value = response.data;
-            })
-    } else {
-        getTattooistAppointments()
-            .then((response) => {
-                console.log(response.data);
-                appointments.value = response.data;
-            })
+onMounted(async () => {
+    try {
+        const response = authStore.user.type === 'user'
+            ? await getUserAppointments()
+            : await getTattooistAppointments();
+
+        console.log(response.data);
+        appointments.value = response.data;
+    } catch (err) {
+        console.error('Error fetching appointments:', err);
+    } finally {
+        loading.value = false;
     }
-})
+});
 
 const formatDate = (dateString) => {
     const date = new Date(dateString); // Asegurar que se interprete como UTC
@@ -47,7 +48,10 @@ const formatDate = (dateString) => {
 </script>
 
 <template>
-    <div class="p-4 h-screen text-white flex-col rounded-2xl shadow-lg flex">
+    <div v-if="loading" class="p-4 h-screen text-white flex-col rounded-2xl shadow-lg flex items-center justify-center">
+        <Spinner />
+    </div>
+    <div v-else class="p-4 h-screen text-white flex-col rounded-2xl shadow-lg flex">
         <div class="items-center gap-10 mb-10 md:flex hidden">
             <RouterLink to="/" class="text-[#00c853] hover:text-[#00e676] flex items-center gap-2">
                 <Io5ArrowBackOutline />
