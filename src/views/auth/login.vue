@@ -66,6 +66,11 @@ const volver = () => {
                             <AiFillEyeInvisible v-else class="text-white" />
                         </span>
                     </div>
+                    <div class="text-neon w-full my-2 ml-2">
+                        <RouterLink to="/forgot-password" class="text-neon hover:text-[#00e676]">
+                            ¿Olvidaste tu contraseña?
+                        </RouterLink>
+                    </div>
                 </div>
 
                 <div class="text-white text-center mb-5">
@@ -78,6 +83,7 @@ const volver = () => {
                         Usuario
                     </RouterLink>
                 </div>
+
 
                 <button type="submit"
                     class="w-full p-3 bg-[#00c853] text-white rounded-md text-lg cursor-pointer transition hover:bg-[#555] hover:shadow-[0px_0px_10px_#33ff5850,0px_0px_40px_#33ff5850,0px_0px_60px_#33ff5850] mb-4">

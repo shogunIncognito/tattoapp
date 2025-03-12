@@ -27,7 +27,7 @@ import { RouterLink } from 'vue-router';
 
             <!-- Copy -->
             <div class="border-t border-gray-700 pt-4 text-gray-500 text-sm">
-                &copy; 2025 Tattoo Ink. Todos los derechos reservados.
+                &copy; {{ new Date().getFullYear() }} Tattoo Ink. Todos los derechos reservados.
             </div>
         </div>
     </footer>
