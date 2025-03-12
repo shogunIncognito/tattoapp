@@ -175,3 +175,11 @@ export async function getTattooistAppointments() {
         },
     });
 }
+
+export async function deleteAppointment(id) {
+    return await API.delete(`/appointment/delete-shedule/${id}`, {
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+}

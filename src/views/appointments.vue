@@ -5,29 +5,16 @@ import esLocale from '@fullcalendar/core/locales/es'
 import { Io5ArrowBackOutline } from 'vue-icons-plus/io5';
 import { BsCalendarEvent } from 'vue-icons-plus/bs';
 import { onMounted, ref } from 'vue';
-import { getTattooistAppointments, getUserAppointments } from '../services/api';
+import { deleteAppointment, getTattooistAppointments, getUserAppointments } from '../services/api';
 import { useAuthStore } from '../store/useAuthStore';
 import Spinner from '../components/Spinner.vue';
+import { BiTrash } from 'vue-icons-plus/bi';
+import { toast } from 'vue3-toastify';
 
 const authStore = useAuthStore();
 
 const appointments = ref([]);
 const loading = ref(true);
-
-onMounted(async () => {
-    try {
-        const response = authStore.user.type === 'user'
-            ? await getUserAppointments()
-            : await getTattooistAppointments();
-
-        console.log(response.data);
-        appointments.value = response.data;
-    } catch (err) {
-        console.error('Error fetching appointments:', err);
-    } finally {
-        loading.value = false;
-    }
-});
 
 const formatDate = (dateString) => {
     const date = new Date(dateString); // Asegurar que se interprete como UTC
@@ -45,6 +32,26 @@ const formatDate = (dateString) => {
     return `${formattedDate} a las ${formattedTime}`;
 };
 
+const handleDeleteAppointment = (id) => {
+    deleteAppointment(id)
+    toast.success('Cita eliminada correctamente');
+    appointments.value = appointments.value.filter(appointment => appointment._id !== id);
+};
+
+onMounted(async () => {
+    try {
+        const response = authStore.user.type === 'user'
+            ? await getUserAppointments()
+            : await getTattooistAppointments();
+
+        console.log(response.data);
+        appointments.value = response.data;
+    } catch (err) {
+        console.error('Error fetching appointments:', err);
+    } finally {
+        loading.value = false;
+    }
+});
 </script>
 
 <template>
@@ -68,12 +75,20 @@ const formatDate = (dateString) => {
                     </h2>
                     <ul v-if="appointments.length > 0">
                         <li v-for="appointment in appointments" :key="appointment.id"
-                            class="p-3 mb-2 rounded-lg shadow hover:bg-gray-600 transition"
+                            class="p-3 mb-2 rounded-lg flex shadow hover:bg-gray-600 transition"
                             :style="{ backgroundColor: appointment.color }">
-                            <p class="text-lg font-medium text-gray-900">{{ appointment.title }}</p>
-                            <p class="text-sm text-black">
-                                {{ formatDate(appointment.date) }}
-                            </p>
+                            <div>
+                                <p class="text-lg font-medium text-gray-900">{{ appointment.title }}</p>
+                                <p class="text-sm text-black">
+                                    {{ formatDate(appointment.date) }}
+                                </p>
+                            </div>
+                            <!-- // delete button -->
+                            <button v-if="authStore.user?.type === 'tattooArtist'"
+                                class="text-white ml-auto bg-red-500 p-2 rounded-lg mt-2"
+                                @click="handleDeleteAppointment(appointment._id)">
+                                <BiTrash size="20" />
+                            </button>
                         </li>
                     </ul>
                     <p v-else class="text-center text-gray-400 md:mt-20">No hay citas programadas</p>
