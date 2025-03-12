@@ -32,7 +32,7 @@ const sendMessage = () => {
 </script>
 
 <template>
-    <div v-if="authStore.user.type === 'user'" class="fixed bottom-6 right-6 z-40">
+    <div v-if="authStore.user?.type === 'user'" class="fixed bottom-6 right-6 z-40">
         <button @click="isOpen = !isOpen"
             class="p-3 flex items-center gap-2 bg-[#00c853] hover:bg-[#4feb90] rounded-full shadow-lg">
             <FiMessageCircle size="24" />

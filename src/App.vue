@@ -3,6 +3,7 @@ import { useAuthStore } from './store/useAuthStore';
 import Spinner from './components/Spinner.vue'
 import { onMounted, ref } from 'vue';
 import NavBar from './components/NavBar.vue';
+import Footer from './components/Footer.vue';
 
 const authStore = useAuthStore();
 const isReady = ref(false);
@@ -24,6 +25,7 @@ onMounted(async () => {
     </div>
     <router-view class="pt-20" v-else>
     </router-view>
+    <Footer v-if="isReady" />
   </div>
 </template>
 

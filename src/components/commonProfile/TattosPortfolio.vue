@@ -75,7 +75,7 @@ onMounted(() => {
         </div>
         <div v-else class="flex flex-col justify-center items-center">
             <p class="text-center mt-10 mb-5">No hay tatuajes en el portafolio</p>
-            <button v-if="authStore.user.type === 'tattooArtist' && route.path.startsWith('/profile')"
+            <button v-if="authStore.user?.type === 'tattooArtist' && route.path.startsWith('/profile')"
                 @click="router.push('/tattoos/create')"
                 class="bg-[#00c853] hover:bg-[#00e676] text-white py-2 px-4 rounded-lg">Agregar un
                 tatuaje
