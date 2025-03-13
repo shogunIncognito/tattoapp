@@ -1,8 +1,9 @@
 <script setup>
-import { useSignIn } from "@clerk/vue";
+import { SignInButton, useClerk, useSignIn } from "@clerk/vue";
 import { FcGoogle } from "vue-icons-plus/fc";
 
 const { signIn, isLoaded } = useSignIn();
+const { value } = useClerk();
 
 const loginWithGoogle = async () => {
     if (!isLoaded || !signIn) return;
@@ -11,7 +12,7 @@ const loginWithGoogle = async () => {
         await signIn.value.authenticateWithRedirect({
             strategy: "oauth_google",
             redirectUrlComplete: '/',
-            redirectUrl: '/',
+            redirectUrl: '/sso-callback',
         });
     } catch (error) {
         console.error("Error al iniciar sesión con Google:", error);

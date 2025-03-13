@@ -24,6 +24,8 @@ const clerk = useClerk()
 
 watch(user.user, async (newValue) => {
   try {
+    console.log(newValue);
+
     if (!newValue) return;
     isReady.value = false;
 

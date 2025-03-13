@@ -87,6 +87,11 @@ const routes = [
         component: () => import('../views/auth/forgotPasswordUpdate.vue'),
     },
     {
+        path: '/sso-callback',
+        name: 'ssoCallback',
+        component: () => import('../components/auth/SSOCallback.vue'),
+    },
+    {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: () => import('../views/NotFound.vue'),
