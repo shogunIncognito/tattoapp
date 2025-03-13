@@ -6,6 +6,8 @@ import Spinner from "../components/Spinner.vue";
 import { toast } from "vue3-toastify";
 import { Io5ArrowBackOutline } from "vue-icons-plus/io5";
 import { placeholderUserImage } from "../utils/consts";
+import { BiStar } from "vue-icons-plus/bi";
+import { BsFillStarFill } from "vue-icons-plus/bs";
 
 const router = useRouter();
 
@@ -15,6 +17,8 @@ const loading = ref(true);
 onMounted(() => {
   getTattooArtists()
     .then((response) => {
+      console.log(response.data);
+
       tattooists.value = response.data;
     })
     .catch((error) => {
@@ -41,20 +45,28 @@ onMounted(() => {
       <Spinner />
     </div>
     <div v-else class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-      <div v-for="tattooist in tattooists" :key="tattooist._id"
+      <div v-for="tattooist in tattooists" :key="tattooist.tattooArtist._id"
         class="relative cursor-pointer break-inside-avoid overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition group"
-        @click="router.push(`/artists/profile/${tattooist._id}`)">
-        <img :src="tattooist.photoPerfil?.url || placeholderUserImage" alt="Foto del tatuador"
+        @click="router.push(`/artists/profile/${tattooist.tattooArtist._id}`)">
+        <img :src="tattooist.tattooArtist.photoPerfil?.url || placeholderUserImage" alt="Foto del tatuador"
           class="w-full h-full object-cover rounded-lg transition group-hover:brightness-75" />
 
         <div class="right-0 top-0 absolute bg-dark p-2 text-white rounded-tl-lg rounded-br-lg">
-          {{ tattooist.specialty }}
+          {{ tattooist.tattooArtist.specialty }}
         </div>
 
         <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4">
-          <h2 class="text-xl font-semibold">{{ tattooist.name }}</h2>
-          <!-- <p class="font-bold opacity-60">{{ tattooist.instagram }}</p> -->
-          <p class="text-gray-400">{{ tattooist.experience }}</p>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-xl font-semibold">{{ tattooist.tattooArtist.name }}</h2>
+              <div class="flex items-center gap-2">
+                <BsFillStarFill class="text-yellow-400" />
+                {{ tattooist.califications > 0 ? tattooist.califications.toFixed(1) : 0 }}
+              </div>
+            </div>
+            <!-- <p class="font-bold opacity-60">{{ tattooist.tattooArtist.instagram }}</p> -->
+            <p class="text-gray-400">{{ tattooist.tattooArtist.experience }}</p>
+          </div>
         </div>
       </div>
     </div>

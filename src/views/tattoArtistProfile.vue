@@ -36,8 +36,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div v-if="loading"
-        class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div v-if="loading" class="w-full h-screen bg-black bg-opacity-50 z-50 flex items-center justify-center">
         <Spinner />
     </div>
     <div v-else-if="!tatooist" class="h-screen bg-black p-5 text-white">
@@ -70,7 +69,8 @@ onMounted(() => {
                         <h1 class="text-3xl font-bold">{{ tatooist.name }}</h1>
                         <div v-if="reviews.averageQualification" class="flex gap-1.5">
                             <AiFillStar class="text-[#FFD700]" />
-                            <span class="text-gray-300 font-bold">{{ reviews.averageQualification || 0 }}</span>
+                            <span class="text-gray-300 font-bold">{{ reviews.averageQualification.toFixed(1) || 0
+                                }}</span>
                         </div>
                     </div>
                 </div>
