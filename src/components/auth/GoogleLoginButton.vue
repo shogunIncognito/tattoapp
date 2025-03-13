@@ -8,13 +8,11 @@ const loginWithGoogle = async () => {
     if (!isLoaded || !signIn) return;
 
     try {
-        const session = await signIn.value.authenticateWithRedirect({
+        await signIn.value.authenticateWithRedirect({
             strategy: "oauth_google",
             redirectUrlComplete: '/',
             redirectUrl: '/',
         });
-
-        console.log("Session ID:", session);
     } catch (error) {
         console.error("Error al iniciar sesión con Google:", error);
     }

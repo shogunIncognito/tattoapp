@@ -44,7 +44,6 @@ onMounted(async () => {
             ? await getUserAppointments()
             : await getTattooistAppointments();
 
-        console.log(response.data);
         appointments.value = response.data;
     } catch (err) {
         console.error('Error fetching appointments:', err);

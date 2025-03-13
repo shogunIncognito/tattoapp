@@ -85,8 +85,6 @@ const volver = () => {
                     </RouterLink>
                 </div>
 
-
-
                 <button type="submit"
                     class="w-full p-3 bg-[#00c853] text-white rounded-md text-lg cursor-pointer transition hover:bg-[#555] hover:shadow-[0px_0px_10px_#33ff5850,0px_0px_40px_#33ff5850,0px_0px_60px_#33ff5850] mb-4">
                     Iniciar sesión

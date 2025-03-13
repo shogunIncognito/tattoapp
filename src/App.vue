@@ -1,9 +1,13 @@
 <script setup>
 import { useAuthStore } from './store/useAuthStore';
 import Spinner from './components/Spinner.vue'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import NavBar from './components/NavBar.vue';
 import Footer from './components/Footer.vue';
+import { useClerk, useUser } from '@clerk/vue';
+import { getGoogleSession } from './services/api';
+import { toast } from 'vue3-toastify';
+import { getApiErrorMessage } from './utils/functions';
 
 const authStore = useAuthStore();
 const isReady = ref(false);
@@ -12,6 +16,32 @@ onMounted(async () => {
   const token = localStorage.getItem('token');
   await authStore.setSession(token)
   isReady.value = true;
+});
+
+// handle google session login
+const user = useUser();
+const clerk = useClerk()
+
+watch(user.user, async (newValue) => {
+  try {
+    if (!newValue) return;
+    isReady.value = false;
+
+    // console.log(newValue.imageUrl);
+    const { data } = await getGoogleSession({ name: newValue.fullName, email: newValue.primaryEmailAddress.emailAddress });
+    await authStore.setSession(data.token);
+  } catch (error) {
+    toast.error(getApiErrorMessage(error.response.data.message) || 'Error al iniciar sesión', {
+      autoClose: 3000,
+    });
+    setTimeout(() => {
+      clerk.value.signOut();
+    }, 3000);
+  }
+  finally {
+    isReady.value = true;
+  }
+
 });
 
 </script>

@@ -90,7 +90,8 @@ const submitTattoo = async () => {
             </button>
 
             <!-- Input oculto -->
-            <input type="file" ref="fileInput" multiple @change="handleImageUpload" class="hidden" />
+            <input type="file" ref="fileInput" accept=".jpeg, .jpg, .png, .webp" multiple @change="handleImageUpload"
+                class="hidden" />
 
             <!-- Previsualización de imágenes con botón de eliminar -->
             <div v-if="previewImages.length" class="grid grid-cols-3 gap-2 mt-4">

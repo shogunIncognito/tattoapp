@@ -49,9 +49,8 @@ onBeforeUnmount(() => {
         <h1 class="animate-title text-[2.5rem] md:text-[3rem]">¿Quieres un tatuaje?</h1>
         <p class="animate-text">TE FACILITAMOS ENCONTRANDOLO, CON QUIÉN Y DONDE</p>
         <RouterLink to="/artists" class="main-button">
-          EMPEZAR
+          EXPLORAR
         </RouterLink>
-
       </div>
 
       <!-- Elementos decorativos -->

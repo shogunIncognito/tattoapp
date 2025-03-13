@@ -5,11 +5,12 @@ import { commonRoutes, loggedRoutes } from '../utils/consts';
 import { BiExit, BiMenu } from 'vue-icons-plus/bi';
 import { computed, ref } from 'vue';
 import { toast } from 'vue3-toastify';
+import { useClerk } from '@clerk/vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
 const isOpen = ref(false);
-
+const clerk = useClerk();
 const appRoutes = computed(() =>
     !authStore.user
         ? commonRoutes
@@ -20,7 +21,7 @@ const appRoutes = computed(() =>
 
 const handleLogout = () => {
     authStore.deleteSession();
-    toast.success('Sesión cerrada', { autoClose: 1500 });
+    clerk.value.signOut({ redirectUrl: undefined });
     router.push('/');
 };
 </script>

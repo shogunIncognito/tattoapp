@@ -24,6 +24,10 @@ export async function login(data) {
     return await API.post("/auth/login", data);
 }
 
+export async function getGoogleSession(data) {
+    return await API.post("/auth/register-and-login-user", data);
+}
+
 export async function fetchUser() {
     return await API.get("/auth/get-user", {
         headers: {
