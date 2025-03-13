@@ -6,6 +6,7 @@ import { login } from '../../services/api';
 import { toast } from 'vue3-toastify';
 import { getApiErrorMessage } from '../../utils/functions';
 import { useAuthStore } from '../../store/useAuthStore';
+import GoogleLoginButton from '../../components/auth/GoogleLoginButton.vue';
 
 const router = useRouter();
 const { setSession } = useAuthStore();
@@ -85,16 +86,13 @@ const volver = () => {
                 </div>
 
 
+
                 <button type="submit"
                     class="w-full p-3 bg-[#00c853] text-white rounded-md text-lg cursor-pointer transition hover:bg-[#555] hover:shadow-[0px_0px_10px_#33ff5850,0px_0px_40px_#33ff5850,0px_0px_60px_#33ff5850] mb-4">
                     Iniciar sesión
                 </button>
-
-                <button @click="volver" type="button"
-                    class="w-full p-3 bg-[#00c853] text-white rounded-md text-lg cursor-pointer transition hover:bg-[#555] hover:shadow-[0px_0px_10px_#33ff5850,0px_0px_40px_#33ff5850,0px_0px_60px_#33ff5850]">
-                    Volver
-                </button>
             </form>
+            <GoogleLoginButton />
         </div>
     </div>
 </template>
