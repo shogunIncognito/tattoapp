@@ -79,7 +79,7 @@ export async function updateProfileBanner(data) {
 }
 
 export async function setUserPassword(id, password) {
-    return await API.patch(`/add-password-user/${id}`, { password }, {
+    return await API.patch(`/auth/add-password-user/${id}`, { password }, {
         headers: {
             Authorization: `Bearer ${getToken()}`,
         },
