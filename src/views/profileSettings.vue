@@ -85,6 +85,7 @@ const handleSetPassword = () => {
     setUserPassword(tattooist.value._id, password.value)
         .then(() => {
             toast.success('Contraseña añadida');
+            tattooist.value.password = true;
         })
         .catch((error) => {
             console.error('Error al añadir contraseña:', error);
@@ -166,7 +167,7 @@ onMounted(() => {
                         <form @submit.prevent="submitForm" class="w-full space-y-4">
                             <div v-for="(value, key) in profileSettingFields.userData" :key="key">
                                 <label :for="key" class="block text-sm mb-2 font-medium text-white">{{ value
-                                }}</label>
+                                    }}</label>
                                 <div class="flex items-center space-x-2">
                                     <input :id="key" :name="key" v-model="tattooist[key]"
                                         :type="key === 'email' ? 'email' : 'text'"
