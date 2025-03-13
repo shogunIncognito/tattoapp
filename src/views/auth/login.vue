@@ -90,6 +90,11 @@ const volver = () => {
                     Iniciar sesión
                 </button>
             </form>
+
+            <div class="text-white text-center mb-3">
+                <p>O <span class="text-neon">inicia sesión</span> como <span class="text-neon">usuario</span> con</p>
+            </div>
+
             <GoogleLoginButton />
         </div>
     </div>
