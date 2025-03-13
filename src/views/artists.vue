@@ -17,8 +17,6 @@ const loading = ref(true);
 onMounted(() => {
   getTattooArtists()
     .then((response) => {
-      console.log(response.data);
-
       tattooists.value = response.data;
     })
     .catch((error) => {
@@ -65,7 +63,7 @@ onMounted(() => {
               </div>
             </div>
             <!-- <p class="font-bold opacity-60">{{ tattooist.tattooArtist.instagram }}</p> -->
-            <p class="text-gray-400">{{ tattooist.tattooArtist.experience }}</p>
+            <p class="text-gray-400">{{ tattooist.tattooArtist.experience }} de experiencia</p>
           </div>
         </div>
       </div>

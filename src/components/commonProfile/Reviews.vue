@@ -11,7 +11,7 @@ console.log(reviews);
         <div v-if="reviews.Qualifications?.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div v-for="review in reviews.Qualifications" class="bg-dark rounded-lg shadow-lg p-4 ring-neon">
                 <div class="flex items-center gap-4">
-                    <img :src="review.user?.photoPerfil?.url || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
+                    <img :src="review.user?.photoPerfil?.url || authStore.user.user?.profileImageGoogle || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
                         alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full" />
                     <div>
                         <h3 class="text-lg font-semibold">{{ review.user?.name }}</h3>

@@ -11,4 +11,6 @@ export const apiResponses = {
     "facebook must be longer than or equal to 3 characters": "Facebook debe tener al menos 3 caracteres",
     "Unauthorized artist": "Artista no autorizado",
     "Unauthorized user": "Usuario no autorizado",
+    "You must sign in using Google to continue": "Ya tienes una cuenta registrada con este correo, por favor inicia sesión con Google",
+    "Email registered in user": "El correo ya está registrado con Google",
 }

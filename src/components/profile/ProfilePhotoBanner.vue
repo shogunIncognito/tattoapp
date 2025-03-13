@@ -49,7 +49,7 @@ const handleFileChange = (event, type) => {
         </div>
         <div class="absolute bottom-1 left-4">
             <div class="relative group">
-                <img :src="user.photoPerfil?.url || 'https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain'"
+                <img :src="user.photoPerfil?.url || user.profileImageGoogle || 'https://th.bing.com/th?id=OIF.xfLzb0EOnt2D%2bhjO2WcEpw&rs=1&pid=ImgDetMain'"
                     alt="Foto del tatuador" class="w-40 h-40 object-cover rounded-full border-4 border-white" />
                 <label
                     class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer rounded-full">

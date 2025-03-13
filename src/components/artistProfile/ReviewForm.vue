@@ -90,7 +90,7 @@ onMounted(() => {
 
         <!-- Comentario -->
         <div class="flex gap-3">
-            <img :src="authStore.user.user?.photoPerfil?.url || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
+            <img :src="authStore.user.user?.photoPerfil?.url || authStore.user.user?.profileImageGoogle || 'https://static.vecteezy.com/system/resources/previews/036/594/092/original/man-empty-avatar-photo-placeholder-for-social-networks-resumes-forums-and-dating-sites-male-and-female-no-photo-images-for-unfilled-user-profile-free-vector.jpg'"
                 alt="Foto del usuario" class="w-12 h-12 object-cover rounded-full mt-2" />
             <textarea v-model="newReview.comment" rows="3" placeholder="Escribe tu experiencia..."
                 class="w-full p-2 bg-[#333333] border-2 border-transparent focus:border-[#00e676] text-white rounded-lg outline-none mb-3"></textarea>

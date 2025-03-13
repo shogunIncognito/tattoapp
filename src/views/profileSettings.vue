@@ -5,10 +5,11 @@ import { IoRemoveCircleOutline } from 'vue-icons-plus/io';
 import { CgAdd } from 'vue-icons-plus/cg';
 import { useRouter } from 'vue-router';
 import { checkIfValidsSocialsURL, getApiErrorMessage } from '../utils/functions';
-import { fetchUser, updateProfileInfo, updateProfileName, updateProfileSocial } from '../services/api';
+import { fetchUser, setUserPassword, updateProfileInfo, updateProfileName, updateProfileSocial } from '../services/api';
 import Spinner from '../components/Spinner.vue';
 import { toast } from 'vue3-toastify';
 import ProfilePhotoBanner from '../components/profile/ProfilePhotoBanner.vue';
+import { CiWarning } from 'vue-icons-plus/ci';
 
 const router = useRouter();
 
@@ -16,6 +17,8 @@ const tattooist = ref(null);
 const typeUser = ref(null);
 const loading = ref(true);
 const loadingUpdate = ref(false);
+
+const password = ref('')
 
 const toggleField = (key) => {
     // con un espacio en blanco se muestra el campo
@@ -38,7 +41,7 @@ const submitForm = async (e) => {
     const formValues = Object.fromEntries(new FormData(e.target));
 
     const updateOptions = {
-        'user': () => updateProfileName({ name: formValues.name }),
+        'user': () => updateProfileName({ name: formValues.name, password: formValues.password }),
         'tattooArtist': () => updateProfileInfo(formValues)
     }
 
@@ -77,6 +80,21 @@ const handleSocials = () => {
         });
 };
 
+const handleSetPassword = () => {
+    loadingUpdate.value = true;
+    setUserPassword(tattooist.value._id, password.value)
+        .then(() => {
+            toast.success('Contraseña añadida');
+        })
+        .catch((error) => {
+            console.error('Error al añadir contraseña:', error);
+            toast.error(getApiErrorMessage(error.response.data.message) || 'Error al añadir contraseña');
+        })
+        .finally(() => {
+            loadingUpdate.value = false;
+        });
+}
+
 onMounted(() => {
     fetchUser()
         .then((res) => {
@@ -86,6 +104,8 @@ onMounted(() => {
 
             tattooist.value = res.data.user;
             typeUser.value = res.data.type;
+            console.log(res.data.user); // check if password
+
         })
         .catch((error) => {
             console.error('Error al obtener el usuario:', error);
@@ -141,29 +161,63 @@ onMounted(() => {
                         </div>
                     </form>
 
-                    <!-- // formulario si no es tatuador, solamente puede cambiar el nombre -->
-                    <form v-else @submit.prevent="submitForm" class="w-full space-y-4">
-                        <div v-for="(value, key) in profileSettingFields.userData" :key="key">
-                            <label :for="key" class="block text-sm mb-2 font-medium text-white">{{ value }}</label>
-                            <div class="flex items-center space-x-2">
-                                <input :id="key" :name="key" v-model="tattooist[key]"
-                                    :type="key === 'email' ? 'email' : 'text'"
-                                    :required="['name', 'email'].includes(key)"
-                                    class="w-full p-2 bg-[#333333] text-white border border-transparent rounded focus:outline-none focus:border-[#00e676]" />
+                    <!-- // formulario si no es tatuador, solamente puede cambiar el nombre y añadir contraseña si desea -->
+                    <div v-else class="justify-between w-full gap-5">
+                        <form @submit.prevent="submitForm" class="w-full space-y-4">
+                            <div v-for="(value, key) in profileSettingFields.userData" :key="key">
+                                <label :for="key" class="block text-sm mb-2 font-medium text-white">{{ value
+                                }}</label>
+                                <div class="flex items-center space-x-2">
+                                    <input :id="key" :name="key" v-model="tattooist[key]"
+                                        :type="key === 'email' ? 'email' : 'text'"
+                                        :required="['name', 'email'].includes(key)"
+                                        class="w-full p-2 bg-[#333333] text-white border border-transparent rounded focus:outline-none focus:border-[#00e676]" />
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <div class="flex gap-2 mt-6">
-                                <button @click="router.back()" type="button"
-                                    class="px-4 py-2 bg-[#606060] rounded hover:bg-[#808080]">Volver</button>
-                                <button type="submit" :disabled="loadingUpdate"
-                                    class="px-4 py-2 bg-[#00c853] rounded hover:bg-[#1d9259] disabled:bg-[#606060] disabled:cursor-not-allowed">
-                                    Actualizar datos
-                                </button>
+                            <div>
+                                <div class="flex gap-2 mt-6">
+                                    <button @click="router.back()" type="button"
+                                        class="px-4 py-2 bg-[#606060] rounded hover:bg-[#808080]">Volver</button>
+                                    <button type="submit" :disabled="loadingUpdate"
+                                        class="px-4 py-2 bg-[#00c853] justify-center items-center flex w-48 h-12 rounded hover:bg-[#1d9259] disabled:bg-[#606060] disabled:cursor-not-allowed">
+                                        <Spinner v-if="loadingUpdate" class="w-8" />
+                                        <span v-else>Actualizar datos</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+
+                        <form v-if="!tattooist.password" @submit.prevent="handleSetPassword"
+                            class="w-full space-y-4 mt-6">
+                            <hr />
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <CiWarning class="w-6 h-6 text-orange-400" />
+                                    <p class="text-xl font-semibold text-orange-400">Atencion</p>
+                                </div>
+                                <p>Si añades una contraseña, podrás iniciar sesión con tu email</p>
+                            </div>
+
+                            <div>
+                                <label for="password"
+                                    class="block text-sm mb-2 font-medium text-white">Contraseña</label>
+                                <div>
+                                    <input id="password" name="password" type="password" v-model="password"
+                                        class="w-full p-2 bg-[#333333] text-white border border-transparent rounded focus:outline-none focus:border-[#00e676]" />
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex gap-2 mt-2">
+                                    <button type="submit" :disabled="loadingUpdate"
+                                        class="px-4 py-2 bg-[#00c853] justify-center items-center flex w-48 h-12 rounded hover:bg-[#1d9259] disabled:bg-[#606060] disabled:cursor-not-allowed">
+                                        <Spinner v-if="loadingUpdate" class="w-8" />
+                                        <span v-else>Agregar contraseña</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
 
                     <form v-if="typeUser === 'tattooArtist'" @submit.prevent="handleSocials"

@@ -34,7 +34,7 @@ export const profileSettingFields = {
         tiktok: "TikTok",
     },
     userData: {
-        name: "Nombre",
+        name: "Nombre"
     }
 }
 

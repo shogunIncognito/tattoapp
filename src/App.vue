@@ -27,8 +27,7 @@ watch(user.user, async (newValue) => {
     if (!newValue) return;
     isReady.value = false;
 
-    // console.log(newValue.imageUrl);
-    const { data } = await getGoogleSession({ name: newValue.fullName, email: newValue.primaryEmailAddress.emailAddress });
+    const { data } = await getGoogleSession({ name: newValue.fullName, email: newValue.primaryEmailAddress.emailAddress, profileImageGoogle: newValue.imageUrl });
     await authStore.setSession(data.token);
   } catch (error) {
     toast.error(getApiErrorMessage(error.response.data.message) || 'Error al iniciar sesión', {

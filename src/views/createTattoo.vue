@@ -68,7 +68,6 @@ const submitTattoo = async () => {
         .finally(() => {
             loading.value = false;
         });
-
 };
 </script>
 
