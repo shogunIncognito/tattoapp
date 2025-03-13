@@ -77,11 +77,15 @@ const routes = [
         component: () => import('../views/appointments.vue'),
     },
     {
-        path: '/forgot-password/:token',
+        path: '/forgot-password',
         name: 'forgotPassword',
         component: () => import('../views/auth/forgotPassword.vue'),
     },
-    // si la ruta no existe
+    {
+        path: '/forgot-password/:token',
+        name: 'resetPassword',
+        component: () => import('../views/auth/forgotPasswordUpdate.vue'),
+    },
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',

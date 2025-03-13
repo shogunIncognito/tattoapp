@@ -183,3 +183,17 @@ export async function deleteAppointment(id) {
         },
     });
 }
+
+// update forgot
+
+export async function sendForgotPasswordEmail(email) {
+    return await API.post("/auth/forgot-password", { email });
+}
+
+export async function updateForgotPassword(token, password) {
+    return await API.patch("auth/reset-password/", { password }, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
