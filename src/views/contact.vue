@@ -20,9 +20,9 @@
           <h2>Redes</h2>
         </div>
 
+        <p class="mb-2">tattooincsas@gmail.com</p>
+
         <div class="card">
-
-
           <a class="socialContainer containerOne" href="https://www.instagram.com/tatt_oiinkk/" target="_blank"
             rel="noopener noreferrer">
             <svg viewBox="0 0 16 16" class="socialSvg instagramSvg">
