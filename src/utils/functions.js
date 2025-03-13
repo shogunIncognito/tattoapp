@@ -41,6 +41,10 @@ export function checkIfValidsSocialsURL(url) {
             return false;
         }
 
+        if (!url[social].trim().startsWith("http")) {
+            return true;
+        }
+
         const socialSplit = url[social].split(".")[1];
         return !url[socialSplit]
     });

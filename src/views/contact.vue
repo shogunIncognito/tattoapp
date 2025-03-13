@@ -33,6 +33,13 @@
           </a>
 
           <!-- CORREO -->
+          <a class="socialContainer containerTwo" href="mailto:tattooincsas@gmail.com" target="_blank">
+            <svg viewBox="0 0 24 24" class="socialSvg">
+              <path
+                d="M 3 5 C 2.447 5 2 5.447 2 6 L 2 18 C 2 18.553 2.447 19 3 19 L 21 19 C 21.553 19 22 18.553 22 18 L 22 6 C 22 5.447 21.553 5 21 5 L 3 5 z M 3 7 L 12 13 L 21 7 L 21 18 L 3 18 L 3 7 z">
+              </path>
+            </svg>
+          </a>
 
 
           <!--INSTAGRAM-->
@@ -44,49 +51,7 @@
             </svg>
           </a>
 
-
         </div>
-      </div>
-
-      <!-- Formulario de contacto -->
-      <div class="formulario-contacto">
-        <form @submit.prevent="submitForm">
-          <!-- Campo para el nombre -->
-          <div class="form-group">
-            <input v-model="formData.name" type="text" placeholder="Tu nombre" required />
-          </div>
-
-          <!-- Campo para el correo -->
-          <div class="form-group">
-            <input v-model="formData.email" type="email" placeholder="Tu correo electrónico" required />
-          </div>
-
-          <!-- Campo para el mensaje -->
-          <div class="form-group">
-            <textarea v-model="formData.message" placeholder="Describe el problema que encontraste" required></textarea>
-          </div>
-
-          <!-- Botones -->
-
-
-          <div class="botones">
-            <button type="submit" class="enviar-btn" :disabled="loading">
-              {{ loading ? "Enviando..." : "Enviar reporte" }}
-            </button>
-
-            <div class="botones">
-              <router-link to="/" class="enviar-btn">Volver</router-link>
-            </div>
-
-          </div>
-
-
-
-          <!-- Mensajes de éxito o error -->
-          <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
-          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-
-        </form>
       </div>
     </div>
   </div>
@@ -163,7 +128,7 @@ export default {
 
 .contacto-content {
   display: flex;
-  width: 100%;
+  width: 30rem;
   max-width: 1200px;
   background-color: #1a1a1a;
   border-radius: 10px;

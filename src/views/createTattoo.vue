@@ -4,6 +4,7 @@ import { createTattooPost } from "../services/api";
 import { toast } from "vue3-toastify";
 import { BsFileImage } from "vue-icons-plus/bs";
 import Spinner from "../components/Spinner.vue";
+import { getApiErrorMessage } from "../utils/functions";
 
 // Estado del formulario
 const description = ref("");
@@ -62,7 +63,7 @@ const submitTattoo = async () => {
         })
         .catch((error) => {
             console.error("Error al enviar el tatuaje:", error);
-            toast.error("Hubo un error al enviar el tatuaje.");
+            toast.error(getApiErrorMessage(error.response.data.message) || "Hubo un error al enviar el tatuaje.");
         })
         .finally(() => {
             loading.value = false;

@@ -37,7 +37,7 @@ onMounted(() => {
 
 <template>
     <div v-if="loading" class="w-full h-screen bg-black bg-opacity-50 z-50 flex items-center justify-center">
-        <Spinner />
+        <Spinner />+
     </div>
     <div v-else-if="!tatooist" class="h-screen bg-black p-5 text-white">
         <div class="flex items-center gap-10 mb-10 flex-col justify-center h-full">
@@ -70,7 +70,7 @@ onMounted(() => {
                         <div v-if="reviews.averageQualification" class="flex gap-1.5">
                             <AiFillStar class="text-[#FFD700]" />
                             <span class="text-gray-300 font-bold">{{ reviews.averageQualification.toFixed(1) || 0
-                                }}</span>
+                            }}</span>
                         </div>
                     </div>
                 </div>
