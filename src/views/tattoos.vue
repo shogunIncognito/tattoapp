@@ -15,6 +15,8 @@ const loading = ref(true)
 onMounted(() => {
     getTattooPosts()
         .then((res) => {
+            console.log(res.data);
+
             tattoos.value = res.data;
         })
         .catch((error) => {
@@ -51,8 +53,8 @@ onMounted(() => {
 
                 <!-- Información del tatuador -->
                 <div class="absolute top-0 left-0 w-full bg-black/60 p-4">
-                    <h2 class="text-md font-semibold text-white">Tatuador: {{ tattoo.TattooArtist.name }}</h2>
-                    <p class="font-bold text-sm text-gray-300">Tipo: {{ tattoo.TattooArtist.specialty }}</p>
+                    <h2 class="text-md font-semibold text-white">Tatuador: {{ tattoo.TattooArtist?.name }}</h2>
+                    <p class="font-bold text-sm text-gray-300">Tipo: {{ tattoo.TattooArtist?.specialty }}</p>
                 </div>
 
                 <!-- Indicador de likes o estrellas -->
@@ -65,7 +67,7 @@ onMounted(() => {
                 <!-- Información del tatuaje -->
                 <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4">
                     <h2 class="text-xl font-semibold text-white">{{ tattoo.nombre }}</h2>
-                    <RouterLink :to="'/artists/profile/' + tattoo.TattooArtist._id"
+                    <RouterLink :to="'/artists/profile/' + tattoo.TattooArtist?._id"
                         class="mt-3 inline-block rounded bg-[#00c853] px-4 py-2 text-white transition hover:bg-[#00e676]">
                         Ver artista
                     </RouterLink>
