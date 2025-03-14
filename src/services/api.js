@@ -203,7 +203,7 @@ export async function sendForgotPasswordEmail(email) {
 }
 
 export async function updateForgotPassword(token, password) {
-    return await API.patch("auth/reset-password/", { password }, {
+    return await API.patch("/auth/reset-password", { password }, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
