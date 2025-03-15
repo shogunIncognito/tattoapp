@@ -20,9 +20,9 @@
           <h2>Redes</h2>
         </div>
 
-        <p class="mb-2">tattooincsas@gmail.com</p>
-
         <div class="card">
+
+
           <a class="socialContainer containerOne" href="https://www.instagram.com/tatt_oiinkk/" target="_blank"
             rel="noopener noreferrer">
             <svg viewBox="0 0 16 16" class="socialSvg instagramSvg">
@@ -41,7 +41,6 @@
             </svg>
           </a>
 
-
           <!--INSTAGRAM-->
           <a class="socialContainer containerThree" href="https://x.com/TattoInk" target="_blank">
             <svg viewBox="0 0 48 48" class="socialSvg">
@@ -51,7 +50,49 @@
             </svg>
           </a>
 
+
         </div>
+      </div>
+
+      <!-- Formulario de contacto -->
+      <div class="formulario-contacto">
+        <form @submit.prevent="submitForm">
+          <!-- Campo para el nombre -->
+          <div class="form-group">
+            <input v-model="formData.name" type="text" placeholder="Tu nombre" required />
+          </div>
+
+          <!-- Campo para el correo -->
+          <div class="form-group">
+            <input v-model="formData.email" type="email" placeholder="Tu correo electrónico" required />
+          </div>
+
+          <!-- Campo para el mensaje -->
+          <div class="form-group">
+            <textarea v-model="formData.message" placeholder="Describe el problema que encontraste" required></textarea>
+          </div>
+
+          <!-- Botones -->
+
+
+          <div class="botones">
+            <button type="submit" class="enviar-btn" :disabled="loading">
+              {{ loading ? "Enviando..." : "Enviar reporte" }}
+            </button>
+
+            <div class="botones">
+              <router-link to="/" class="enviar-btn items-center flex">Volver</router-link>
+            </div>
+
+          </div>
+
+
+
+          <!-- Mensajes de éxito o error -->
+          <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+          <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+        </form>
       </div>
     </div>
   </div>
@@ -128,7 +169,7 @@ export default {
 
 .contacto-content {
   display: flex;
-  width: 30rem;
+  width: 100%;
   max-width: 1200px;
   background-color: #1a1a1a;
   border-radius: 10px;

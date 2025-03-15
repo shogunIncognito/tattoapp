@@ -42,6 +42,9 @@ onMounted(() => {
     <div v-if="loading" class="justify-center items-center flex w-full h-[27rem]">
       <Spinner />
     </div>
+    <div v-else-if="tattooists.length === 0" class="text-center">
+      <h2 class="text-2xl font-bold text-neon mt-20">No hay tatuadores disponibles en este momento.</h2>
+    </div>
     <div v-else class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
       <div v-for="tattooist in tattooists" :key="tattooist.tattooArtist._id"
         class="relative cursor-pointer break-inside-avoid overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition group"

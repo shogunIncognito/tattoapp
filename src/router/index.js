@@ -75,6 +75,7 @@ const routes = [
         path: '/appointments',
         name: 'tattooistAppointments',
         component: () => import('../views/appointments.vue'),
+        meta: { requiresAuth: true }
     },
     {
         path: '/forgot-password',

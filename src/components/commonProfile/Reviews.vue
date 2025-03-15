@@ -2,7 +2,6 @@
 import { AiFillStar } from 'vue-icons-plus/ai';
 
 const { reviews } = defineProps(['reviews']);
-console.log(reviews);
 
 </script>
 <template>
