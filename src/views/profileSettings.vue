@@ -68,7 +68,7 @@ const handleSocials = () => {
     loadingUpdate.value = true;
 
     updateProfileSocial(socials)
-        .then((res) => {
+        .then(() => {
             toast.success('Redes sociales actualizadas');
         })
         .catch((error) => {
@@ -96,6 +96,14 @@ const handleSetPassword = () => {
         });
 }
 
+const handleNewImage = ({ type, url }) => {
+    if (type === 'profilePhoto') {
+        tattooist.value.photoPerfil = { url };
+    } else {
+        tattooist.value.photoBackground = { url };
+    }
+}
+
 onMounted(() => {
     fetchUser()
         .then((res) => {
@@ -105,8 +113,6 @@ onMounted(() => {
 
             tattooist.value = res.data.user;
             typeUser.value = res.data.type;
-            console.log(res.data.user); // check if password
-
         })
         .catch((error) => {
             console.error('Error al obtener el usuario:', error);
@@ -128,7 +134,7 @@ onMounted(() => {
             <h3 class="text-xl font-semibold mb-4">Editar información</h3>
 
             <div class="space-y-4">
-                <ProfilePhotoBanner :user="tattooist" />
+                <ProfilePhotoBanner :user="tattooist" @update-image="handleNewImage" />
                 <div class="flex justify-between w-full gap-5">
                     <form v-if="typeUser === 'tattooArtist'" @submit.prevent="submitForm" class="w-full space-y-4">
                         <div v-for="(value, key) in profileSettingFields.tattooist" :key="key">

@@ -18,9 +18,13 @@ const handleImageToUpload = async (file, type) => {
             'backgroundPhoto': () => updateProfileBanner(formData),
         };
 
-        await optionsUpdate[type]();
+        const { data } = await optionsUpdate[type]();
 
-        toast.success('Imagen actualizada correctamente, recarga la página para ver los cambios');
+        const newImage = type === 'profilePhoto' ? data.photoPerfil.url : data.photoBackground.url;
+
+        emit('update-image', { type, url: newImage });
+
+        toast.success('Imagen actualizada correctamente');
     } catch (error) {
         console.error('Error al actualizar la imagen:', error);
     }
