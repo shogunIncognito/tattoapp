@@ -38,6 +38,11 @@ const handleDeleteAppointment = (id) => {
     appointments.value = appointments.value.filter(appointment => appointment._id !== id);
 };
 
+const convertToLocalTime = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString().slice(0, 16); // Devuelve en formato compatible con FullCalendar
+};
+
 onMounted(async () => {
     try {
         const response = authStore.user.type === 'user'
@@ -99,11 +104,11 @@ onMounted(async () => {
                         plugins: [dayGridPlugin],
                         initialView: 'dayGridMonth',
                         locale: esLocale,
-                        timeZone: 'UTC',
+                        timeZone: 'local',
                         eventTimeFormat: { hour: 'numeric', minute: '2-digit', meridiem: 'short' },
                         events: appointments.map(appointment => ({
                             title: appointment.title,
-                            date: appointment.date,
+                            date: convertToLocalTime(appointment.date),
                             color: appointment.color
                         })),
                         height: 'auto'
