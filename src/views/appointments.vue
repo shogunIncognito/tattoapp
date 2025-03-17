@@ -49,6 +49,9 @@ onMounted(async () => {
             ? await getUserAppointments()
             : await getTattooistAppointments();
 
+        console.log(response.data);
+
+
         appointments.value = response.data;
     } catch (err) {
         console.error('Error fetching appointments:', err);
@@ -82,7 +85,9 @@ onMounted(async () => {
                             class="p-3 mb-2 rounded-lg flex shadow hover:bg-gray-600 transition"
                             :style="{ backgroundColor: appointment.color }">
                             <div>
-                                <p class="text-lg font-medium text-gray-900">{{ appointment.title }}</p>
+                                <p class="text-lg font-medium text-gray-900">Cita con {{ authStore.user.type === 'user'
+                                    ? `tatuador ${appointment.idArtist?.name}` : `cliente: ${appointment.title}` }}
+                                </p>
                                 <p class="text-sm text-black">
                                     {{ formatDate(appointment.date) }}
                                 </p>
@@ -107,7 +112,8 @@ onMounted(async () => {
                         timeZone: 'local',
                         eventTimeFormat: { hour: 'numeric', minute: '2-digit', meridiem: 'short' },
                         events: appointments.map(appointment => ({
-                            title: appointment.title,
+                            title: authStore.user.type === 'user'
+                                ? appointment?.idArtist.name : appointment.title,
                             date: convertToLocalTime(appointment.date),
                             color: appointment.color
                         })),
