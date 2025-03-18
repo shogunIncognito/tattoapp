@@ -9,11 +9,12 @@ import { RouterLink } from 'vue-router';
         <div class="max-w-5xl mx-auto px-6 text-center">
             <!-- Redes sociales -->
             <div class="flex justify-center gap-4 mb-4">
-                <a href="https://www.instagram.com/tatt_oiinkk/"
+                <a href="https://www.instagram.com/tatt_oiinkk/" target="_blank"
                     class="bg-gray-800 p-3 rounded-full hover:bg-green-500 transition">
                     <BsInstagram class="text-white" />
                 </a>
-                <a href="https://x.com/TattoInk" class="bg-gray-800 p-3 rounded-full hover:bg-green-500 transition">
+                <a target="_blank" href="https://x.com/TattoInk"
+                    class="bg-gray-800 p-3 rounded-full hover:bg-green-500 transition">
                     <BsTwitterX class="text-white" />
                 </a>
             </div>
