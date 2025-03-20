@@ -5,10 +5,12 @@ import { registerTatto } from "../../services/api";
 import { toast } from "vue3-toastify";
 import { tattoosSpecialities } from "../../utils/consts";
 import { deleteEmptyValues, getApiErrorMessage } from "../../utils/functions";
+import { AiFillEye, AiFillEyeInvisible } from "vue-icons-plus/ai";
 
 const router = useRouter();
 
 const verificationEmail = ref(false);
+const showPassword = ref(false);
 
 const registerTattooist = (e) => {
   const data = deleteEmptyValues(Object.fromEntries(new FormData(e.target)));
@@ -50,8 +52,15 @@ const volver = () => {
 
         <div>
           <label class="block text-white mb-1">Contraseña*</label>
-          <input type="password" name="password" required placeholder="Ingresa tu contraseña"
-            class="w-full rounded bg-[#333] p-2 text-white focus:border-[#00e676] focus:outline-none" />
+          <div class="relative">
+            <input :type="showPassword ? 'text' : 'password'" name="password" required
+              placeholder="Ingresa tu contraseña"
+              class="w-full rounded bg-[#333] pr-12 p-2 text-white focus:border-[#00e676] focus:outline-none" />
+            <span class="absolute right-3 cursor-pointer bottom-2" @click="showPassword = !showPassword">
+              <AiFillEye v-if="showPassword" class="text-white" />
+              <AiFillEyeInvisible v-else class="text-white" />
+            </span>
+          </div>
         </div>
 
         <div>
