@@ -1,5 +1,43 @@
-# Vue 3 + Vite
+# TattooInk
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Aplicación web donde los tatuadores de Villavicencio pueden registrarse y mostrar su portafolio de trabajos. Los usuarios pueden registrarse para opinar sobre los tatuadores y agendar citas.  
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+### Tecnologías utilizadas  
+- **Vue.js 3**: Framework progresivo de JavaScript para construir interfaces de usuario.  
+- **Tailwind CSS**: Framework de CSS para diseñar interfaces rápidamente con clases utilitarias.  
+- **FullCalendar**: Biblioteca para manejar calendarios y agendamientos.  
+- **Clerk**: Servicio de autenticación utilizado para el inicio de sesión con Google.  
+
+## Clonar repositorio  
+
+
+## Acceder al proyecto  
+```bash
+cd tattoapp
+```
+
+## Instalar dependencias  
+```bash
+npm install
+# o
+yarn install
+```
+
+## Configurar variables de entorno  
+Crea un archivo `.env` en la raíz del proyecto y agrega las credenciales necesarias:  
+
+```env
+VITE_CLERK_PUBLISHABLE_KEY="tu_clerk_publishable_key"
+```
+
+## Iniciar el proyecto  
+```bash
+npm run dev
+```
+# o
+```bash
+yarn run dev
+```
+
+### Acceder a la aplicación  
+Abre tu navegador y visita [http://localhost:5173](http://localhost:5173) para utilizar la aplicación.  
