@@ -49,8 +49,6 @@ onMounted(async () => {
             ? await getUserAppointments()
             : await getTattooistAppointments();
 
-        console.log(response.data);
-
 
         appointments.value = response.data;
     } catch (err) {
@@ -86,7 +84,8 @@ onMounted(async () => {
                             :style="{ backgroundColor: appointment.color }">
                             <div>
                                 <p class="text-lg font-medium text-gray-900">Cita con {{ authStore.user.type === 'user'
-                                    ? `tatuador ${appointment.idArtist?.name}` : `cliente: ${appointment.title}` }}
+                                    ? `tatuador ${appointment.idArtist?.name || ''}` : `cliente: ${appointment.title}`
+                                    }}
                                 </p>
                                 <p class="text-sm text-black">
                                     {{ formatDate(appointment.date) }}
@@ -113,7 +112,7 @@ onMounted(async () => {
                         eventTimeFormat: { hour: 'numeric', minute: '2-digit', meridiem: 'short' },
                         events: appointments.map(appointment => ({
                             title: authStore.user.type === 'user'
-                                ? appointment?.idArtist.name : appointment.title,
+                                ? appointment?.idArtist?.name : appointment.title,
                             date: convertToLocalTime(appointment.date),
                             color: appointment.color
                         })),
