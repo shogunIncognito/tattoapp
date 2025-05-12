@@ -112,7 +112,7 @@ onMounted(async () => {
                         eventTimeFormat: { hour: 'numeric', minute: '2-digit', meridiem: 'short' },
                         events: appointments.map(appointment => ({
                             title: authStore.user.type === 'user'
-                                ? appointment?.idArtist?.name : appointment.title,
+                                ? appointment?.idArtist?.name || 'Cita' : appointment.title,
                             date: convertToLocalTime(appointment.date),
                             color: appointment.color
                         })),
